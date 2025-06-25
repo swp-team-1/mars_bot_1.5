@@ -7,100 +7,55 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import Command
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 # Настройка логгирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Получение переменных окружения
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")
-WEBHOOK_PATH = "/webhook"
-
-
-
-# Инициализация бота и диспетчера
-bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+# Инициализация бота
+bot = Bot(token=os.getenv("TELEGRAM_BOT_TOKEN"),
+          default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
 
-def get_about_us_text() -> str:
-    return """
-🌟 ЭЛЕГАНТНАЯ ПАРИКМАХЕРСКАЯ "СТИЛЬ И ШАРМ" 🌟
-... [ваш текст] ...
-"""
-
-
-def main_keyboard():
-    builder = ReplyKeyboardBuilder()
-    builder.button(text="О нас")
-    builder.button(text="Услуги")
-    builder.button(text="Контакты")
-    builder.button(text="Записаться")
-    builder.adjust(2)
-    return builder.as_markup(resize_keyboard=True)
-
-
-async def safe_send_message(chat_id: int, text: str, **kwargs):
-    """Безопасная отправка сообщения с обработкой ошибок"""
-    try:
-        await bot.send_message(chat_id=chat_id, text=text, **kwargs)
-    except Exception as e:
-        logger.error(f"Ошибка отправки сообщения: {e}")
-
-
+# Обработчики
 @dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    await safe_send_message(
-        message.chat.id,
-        f"Привет, {message.from_user.full_name}! Чем могу помочь?",
-        reply_markup=main_keyboard()
+    await message.answer("Привет! Я бот салона красоты.")
+
+
+# Важно: создаем отдельную сессию для каждого запроса
+async def with_bot_session(update_data: dict):
+    async with bot.context() as ctx_bot:
+        update = types.Update.model_validate(update_data)
+        await dp.feed_update(ctx_bot, update)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    webhook_url = f"{os.getenv('WEBHOOK_URL')}/webhook"
+    await bot.set_webhook(
+        url=webhook_url,
+        drop_pending_updates=True
     )
+    yield
+    await bot.delete_webhook()
 
 
-@dp.message(lambda message: message.text == "О нас")
-async def about_handler(message: types.Message):
-    await safe_send_message(message.chat.id, get_about_us_text())
+app = FastAPI(lifespan=lifespan)
 
 
-@dp.message()
-async def other_messages(message: types.Message):
-    await safe_send_message(
-        message.chat.id,
-        "Пожалуйста, используйте кнопки меню",
-        reply_markup=main_keyboard()
-    )
-
-
-
-
-app = FastAPI()
-
-
-@app.get("/")
-async def health_check():
-    return {"status": "ok"}
-
-
-@app.post(WEBHOOK_PATH)
+@app.post("/webhook")
 async def webhook_handler(request: Request):
     try:
+        # Проверка secret token
 
-        # Создаем новую задачу для обработки обновления
+
+        # Создаем задачу с новой сессией
         update_data = await request.json()
-        asyncio.create_task(process_update(update_data))
+        asyncio.create_task(with_bot_session(update_data))
 
         return {"status": "ok"}
     except Exception as e:
-        logger.error(f"Webhook error: {e}", exc_info=True)
-        return {"status": "error"}, status.HTTP_500_INTERNAL_SERVER_ERROR
-
-
-async def process_update(update_data: dict):
-    """Отдельная асинхронная задача для обработки обновления"""
-    try:
-        update = types.Update.model_validate(update_data)
-        await dp.feed_update(bot, update)
-    except Exception as e:
-        logger.error(f"Ошибка обработки обновления: {e}")
+        logger.error(f"Webhook error: {e}")
+        return {"status": "error"}
