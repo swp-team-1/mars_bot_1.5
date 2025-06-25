@@ -5,10 +5,13 @@ from telegram.ext import (
     CommandHandler,
     MessageHandler,
     filters,
-    ContextTypes,
+    ContextTypes, ConversationHandler,
 )
 import os
 import uvicorn  # Добавляем для запуска сервера
+import requests
+
+from main import GET_NAME
 
 app = FastAPI()
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -25,29 +28,65 @@ main_keyboard = ReplyKeyboardMarkup(
 )
 
 # ===== Обработчики команд =====
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+START, GET_NAME1 = range(2)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text(
         "Привет! Я бот для рекомендательных систем.",
         reply_markup=main_keyboard,
     )
-
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    api_check_user = f"https://swpdb-production.up.railway.app/users/{update.effective_user.id}/"
+    if requests.get(api_check_user).status_code == 200:
+        await update.message.reply_text(
+            "Вы уже зарегистрированы!",
+            reply_markup=main_keyboard,
+        )
+        return ConversationHandler.END
     await update.message.reply_text(
-        "Доступные команды:\n/ask - задать вопрос\n/help - помощь\n/reload - обновить чат\n/log_out - выйти\n/log_in - войти",
+        "Пожалуйста, введите ваше имя: ",
+        reply_markup=main_keyboard,
+    )
+    return GET_NAME1
+async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Получение и сохранение имени пользователя"""
+    user_name = update.message.text
+    context.user_data['name'] = user_name  # Сохраняем имя
+
+    await update.message.reply_text(
+        f"Отлично, {user_name}! Теперь вы можете пользоваться ботом.",
+        reply_markup=main_keyboard,
+    )
+    payload_name_json = {
+        "_id" : update.effective_user.id,
+        "name" : user_name,
+    }
+    api_create_user = "https://swpdb-production.up.railway.app/users/"
+    response_name = requests.post(api_create_user, json=payload_name_json)
+    # if response_name.status_code == 200:
+    #     print("yra")
+    # else:
+    #     print("no")
+
+    return ConversationHandler.END
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Отмена ввода имени"""
+    await update.message.reply_text(
+        "Отмена",
         reply_markup=main_keyboard,
     )
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(update.message.text, reply_markup=main_keyboard)
+    return ConversationHandler.END
 
-async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Чат обновлен!", reply_markup=main_keyboard)
 
-async def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Пройдите регистрацию!", reply_markup=main_keyboard)
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Доступные команды:\n/ask - задать вопрос\n/help - помощь",
+        reply_markup=main_keyboard,
+    )
 
-async def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Вы вышли из аккаунта.", reply_markup=main_keyboard)
+# async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+#     await update.message.reply_text(update.message.text, reply_markup=main_keyboard)
+
+
 
 async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True)
@@ -57,11 +96,9 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def register_handlers():
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("reload", reload))
+
     application.add_handler(CommandHandler("ask", ask))
-    application.add_handler(CommandHandler("log_out", log_out))
-    application.add_handler(CommandHandler("log_in", log_in))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+
 
 register_handlers()
 
