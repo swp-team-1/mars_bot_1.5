@@ -101,9 +101,11 @@ async def root():
 @app.post("/webhook")
 async def webhook(request: Request):
     try:
-        json_data = await request.json()
-        print("📡 Получен update:", json_data)
-        update = types.Update(**update_data)
+        update_json = await request.json()
+        print("📡 Получен update:", update_json)
+        update = types.Update.model_validate(update_json)
+
+        # Передаем обновление в диспетчер
         await dp.feed_update(bot, update)
         return {"status": "ok"}
     except Exception as e:
