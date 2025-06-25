@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from telegram import Update, ReplyKeyboardMarkup
@@ -92,28 +93,31 @@ def register_handlers():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 register_handlers()
 # Webhook эндпоинт для Telegram
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("🚀 Starting application...")
+    await application.initialize()
+    yield  # <-- тут приложение работает
+    print("🛑 Shutting down application...")
+    await application.shutdown()
+
+app = FastAPI(lifespan=lifespan)
+
 @app.post("/webhook")
 async def webhook(request: Request):
     try:
-        if not application._initialized:
-            print("⚠️ Инициализируем и запускаем application вручную (cold start)")
-            await application.initialize()
-
         json_data = await request.json()
         print("📡 Получен update:", json_data)
         update = Update.de_json(json_data, application.bot)
         await application.process_update(update)
         return {"status": "ok"}
-
     except Exception as e:
         print("❌ Ошибка при обработке webhook:", str(e))
         return {"status": "error", "message": str(e)}
-
 # Эндпоинт для проверки работоспособности
 @app.get("/")
 async def index():
     return {"message": "Bot is running"}
-
 
 
 
