@@ -44,7 +44,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     async with httpx.AsyncClient() as client:
         try:
             response_get_user = await client.get(api_check_user)
-            if response_get_user.status_code == 200:
+            if response_get_user.status_code in (200, 201):
                 await update.message.reply_text(
                     "Вы уже зарегистрированы!",
                     reply_markup=main_keyboard,
@@ -115,7 +115,19 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 # ===== Регистрация обработчиков =====
 def register_handlers():
-    application.add_handler(CommandHandler("start", start))
+    conv_handler_start = ConversationHandler(
+        entry_points=[CommandHandler("start", start)],
+        states={
+            GET_NAME1:[
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND,
+                    get_name,
+                )
+            ],
+        },
+        fallbacks=[CommandHandler("cancel", cancel)],
+    )
+    application.add_handler(conv_handler_start)
     application.add_handler(CommandHandler("help", help_command))
 
     application.add_handler(CommandHandler("ask", ask))
