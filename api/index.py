@@ -1,5 +1,4 @@
 
-
 from fastapi import FastAPI, Request
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import (
@@ -115,28 +114,9 @@ async def webhook(request: Request):
 async def index():
     return {"message": "Bot is running"}
 
-# Инициализация при запуске
-@app.on_event("startup")
-async def startup():
-    await application.initialize()
-    await application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
 
-@app.on_event("shutdown")
-async def on_shutdown():
-    # удаляем вебхук и чисто останавливаем бота
-    await application.bot.delete_webhook()
-    await application.shutdown()
 
-@app.post("/webhook")
-async def webhook(request: Request):
-    data = await request.json()
-    update = Update.de_json(data, application.bot)
-    await application.process_update(update)
-    return {"ok": True}
 
-@app.get("/")
-async def index():
-    return {"message": "Bot is running"}
 
 # # Для локальной разработки (опционально)
 # if __name__ == "__main__":
