@@ -1,4 +1,4 @@
-работающий index.py:
+
 
 from fastapi import FastAPI, Request
 from telegram import Update, ReplyKeyboardMarkup
