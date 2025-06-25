@@ -73,36 +73,9 @@ async def other_messages(message: types.Message):
     )
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Установка вебхука при старте
-    webhook_url = f"{WEBHOOK_URL}{WEBHOOK_PATH}"
-    try:
-        await bot.set_webhook(
-            url=webhook_url,
-            allowed_updates=dp.resolve_used_update_types(),
-            drop_pending_updates=True
-        )
-        logger.info(f"Webhook установлен: {webhook_url}")
-    except Exception as e:
-        logger.error(f"Ошибка установки webhook: {e}")
-        raise
-
-    yield
-
-    # Удаление вебхука при завершении
-    try:
-        await bot.delete_webhook()
-        logger.info("Webhook удален")
-    except Exception as e:
-        logger.error(f"Ошибка удаления webhook: {e}")
-    finally:
-        # Явное закрытие сессии бота
-        session = await bot.get_session()
-        await session.close()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 
 @app.get("/")
@@ -113,7 +86,7 @@ async def health_check():
 @app.post(WEBHOOK_PATH)
 async def webhook_handler(request: Request):
     try:
-        
+
         # Создаем новую задачу для обработки обновления
         update_data = await request.json()
         asyncio.create_task(process_update(update_data))
