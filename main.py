@@ -34,7 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "Привет! Я бот для рекомендательных систем.",
         reply_markup=main_keyboard,
     )
-    api_check_user = f"https://swpdb-production.up.railway.app/users/{update.effective_user.id}/"
+    api_check_user = f"https://swpdb-production.up.railway.app/users/{update.effective_user.id}"
     # if  requests.get(api_check_user).status_code == 200:
     #     await update.message.reply_text(
     #         "Вы уже зарегистрированы!",
