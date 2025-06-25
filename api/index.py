@@ -103,8 +103,8 @@ async def webhook(request: Request):
     try:
         json_data = await request.json()
         print("📡 Получен update:", json_data)
-        update = Update.de_json(json_data, application.bot)
-        await application.process_update(update)
+        update = types.Update(**update_data)
+        await dp.feed_update(bot, update)
         return {"status": "ok"}
     except Exception as e:
         print("❌ Ошибка при обработке webhook:", str(e))
