@@ -61,10 +61,10 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     }
     api_create_user = "https://swpdb-production.up.railway.app/users/"
     response_name = requests.post(api_create_user, json=payload_name_json)
-    if response_name.status_code == 200:
-        print("yra")
-    else:
-        print("no")
+    # if response_name.status_code == 200:
+    #     print("yra")
+    # else:
+    #     print("no")
 
     return ConversationHandler.END
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
