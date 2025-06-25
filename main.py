@@ -96,6 +96,8 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "Отмена",
         reply_markup=main_keyboard,
     )
+    if 'conv_id' in context.user_data:
+        del context.user_data['conv_id']
 
     return ConversationHandler.END
 
