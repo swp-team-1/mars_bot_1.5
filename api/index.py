@@ -1,61 +1,112 @@
-from fastapi import FastAPI, Request, status
-from contextlib import asynccontextmanager
-import logging
-import os
-import asyncio
-from aiogram import Bot, Dispatcher, types
-from aiogram.client.default import DefaultBotProperties
-from aiogram.enums import ParseMode
-from aiogram.filters import Command
 
-# Настройка логгирования
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from fastapi import FastAPI, Request
+from telegram import Update, ReplyKeyboardMarkup
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    filters,
+    ContextTypes,
+)
+import os
+
+app = FastAPI()
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")  # Используйте переменные окружения Vercel
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")   # URL вашего Vercel приложения
+
+application = Application.builder().token(TOKEN).build()
+# Клавиатура для главного меню
+main_keyboard = ReplyKeyboardMarkup(
+    [["/ask", "/help"], ["/reload"], ["/log_in", "/log_out"]],
+    resize_keyboard=True,
+    one_time_keyboard=False,
+)
 
 # Инициализация бота
-bot = Bot(token=os.getenv("TELEGRAM_BOT_TOKEN"),
-          default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-dp = Dispatcher()
+application = Application.builder().token(TOKEN).build()
 
-
-# Обработчики
-@dp.message(Command("start"))
-async def start_handler(message: types.Message):
-    await message.answer("Привет! Я бот салона красоты.")
-
-
-# Важно: создаем отдельную сессию для каждого запроса
-async def with_bot_session(update_data: dict):
-    async with bot.context() as ctx_bot:
-        update = types.Update.model_validate(update_data)
-        await dp.feed_update(ctx_bot, update)
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    webhook_url = f"{os.getenv('WEBHOOK_URL')}/webhook"
-    await bot.set_webhook(
-        url=webhook_url,
-        drop_pending_updates=True
+# Обработчики команд (остаются без изменений)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    print("⚡ Команда /start получена!")
+    await update.message.reply_text(
+        "Привет! Я первая версия бота для нашего супер проекта про рекомендательные системы",
+        reply_markup=main_keyboard,
     )
-    yield
-    await bot.delete_webhook()
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Доступные команды:\n"
+        "/ask - задать вопрос\n"
+        "/help - основные правила пользования ботом\n"
+        "/reload - обновить чат\n"
+        "/log_out - выйти из аккаунта\n"
+        "/log_in - войти в аккаунт",
+        reply_markup=main_keyboard,
+    )
 
 
-app = FastAPI(lifespan=lifespan)
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    print(f"📨 Получено сообщение: {update.message.text}")
+    await update.message.reply_text(
+        update.message.text,
+        reply_markup=main_keyboard
+    )
+
+async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Чат обновлен!",
+        reply_markup=main_keyboard
+    )
+async def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Пройдите регистрацию в боте!",
+        reply_markup=main_keyboard
+    )
+async def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Вы вышли из своего аккаунта",
+        reply_markup=main_keyboard
+    )
+async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # Специальная клавиатура для команды ask
+    ask_keyboard = ReplyKeyboardMarkup(
+        [["Отмена"]],
+        resize_keyboard=True,
+        one_time_keyboard=True
+    )
+    await update.message.reply_text(
+        "Напишите свой запрос! Я постараюсь помочь вам!",
+        reply_markup=ask_keyboard
+    )
+
+
+
+# Регистрация обработчиков
+def register_handlers():
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("reload", reload))
+    application.add_handler(CommandHandler("ask", ask))
+    application.add_handler(CommandHandler("log_out", log_out))
+    application.add_handler(CommandHandler("log_in", log_in))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+register_handlers()
+
 
 
 @app.post("/webhook")
-async def webhook_handler(request: Request):
-    try:
-        # Проверка secret token
+async def webhook(request: Request):
+    data = await request.json()
+    update = Update.de_json(data, application.bot)
+    await application.process_update(update)
+    return {"ok": True}
 
+@app.get("/")
+async def index():
+    return {"message": "Bot is running"}
 
-        # Создаем задачу с новой сессией
-        update_data = await request.json()
-        asyncio.create_task(with_bot_session(update_data))
-
-        return {"status": "ok"}
-    except Exception as e:
-        logger.error(f"Webhook error: {e}")
-        return {"status": "error"}
+# # Для локальной разработки (опционально)
+# if __name__ == "__main__":
+#     import uvicorn
+#     register_handlers()
+#     uvicorn.run(app, host="127.0.0.1", port=8000)
