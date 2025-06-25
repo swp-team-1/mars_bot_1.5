@@ -95,16 +95,16 @@ register_handlers()
 
 # Webhook эндпоинт для Telegram
 @app.post("/webhook")
-async def webhook(request: Request):
+def webhook(request: Request):
     try:
         if not application._initialized:
             print("⚠️ Инициализируем и запускаем application вручную (cold start)")
-            await application.initialize()
+            application.initialize()
 
-        json_data = await request.json()
+        json_data = request.json()
         print("📡 Получен update:", json_data)
         update = Update.de_json(json_data, application.bot)
-        await application.process_update(update)
+        application.process_update(update)
         return {"status": "ok"}
 
     except Exception as e:
@@ -113,20 +113,20 @@ async def webhook(request: Request):
 
 # Эндпоинт для проверки работоспособности
 @app.get("/")
-async def index():
+def index():
     return {"message": "Bot is running"}
 
 # Инициализация при запуске
 @app.on_event("startup")
-async def startup():
-    await application.initialize()
-    await application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
+def startup():
+    application.initialize()
+    application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
 
 @app.on_event("shutdown")
-async def on_shutdown():
+def on_shutdown():
     # удаляем вебхук и чисто останавливаем бота
-    await application.bot.delete_webhook()
-    await application.shutdown()
+    application.bot.delete_webhook()
+    application.shutdown()
 
 
 
