@@ -11,7 +11,7 @@ import os
 import uvicorn  # Добавляем для запуска сервера
 import requests
 
-from main import GET_NAME
+
 
 app = FastAPI()
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
