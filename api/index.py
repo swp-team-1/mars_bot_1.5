@@ -1,3 +1,4 @@
+работающий index.py:
 
 from fastapi import FastAPI, Request
 from telegram import Update, ReplyKeyboardMarkup
@@ -26,15 +27,15 @@ main_keyboard = ReplyKeyboardMarkup(
 application = Application.builder().token(TOKEN).build()
 
 # Обработчики команд (остаются без изменений)
-def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print("⚡ Команда /start получена!")
-    update.message.reply_text(
+    await update.message.reply_text(
         "Привет! Я первая версия бота для нашего супер проекта про рекомендательные системы",
         reply_markup=main_keyboard,
     )
 
-def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message.reply_text(
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         "Доступные команды:\n"
         "/ask - задать вопрос\n"
         "/help - основные правила пользования ботом\n"
@@ -45,36 +46,36 @@ def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
-def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"📨 Получено сообщение: {update.message.text}")
-    update.message.reply_text(
+    await update.message.reply_text(
         update.message.text,
         reply_markup=main_keyboard
     )
 
-def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message.reply_text(
+async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         "Чат обновлен!",
         reply_markup=main_keyboard
     )
-def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message.reply_text(
+async def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         "Пройдите регистрацию в боте!",
         reply_markup=main_keyboard
     )
-def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message.reply_text(
+async def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         "Вы вышли из своего аккаунта",
         reply_markup=main_keyboard
     )
-def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Специальная клавиатура для команды ask
     ask_keyboard = ReplyKeyboardMarkup(
         [["Отмена"]],
         resize_keyboard=True,
         one_time_keyboard=True
     )
-    update.message.reply_text(
+    await update.message.reply_text(
         "Напишите свой запрос! Я постараюсь помочь вам!",
         reply_markup=ask_keyboard
     )
@@ -91,20 +92,18 @@ def register_handlers():
     application.add_handler(CommandHandler("log_in", log_in))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 register_handlers()
-
-
 # Webhook эндпоинт для Telegram
 @app.post("/webhook")
-def webhook(request: Request):
+async def webhook(request: Request):
     try:
         if not application._initialized:
             print("⚠️ Инициализируем и запускаем application вручную (cold start)")
-            application.initialize()
+            await application.initialize()
 
-        json_data = request.json()
+        json_data = await request.json()
         print("📡 Получен update:", json_data)
         update = Update.de_json(json_data, application.bot)
-        application.process_update(update)
+        await application.process_update(update)
         return {"status": "ok"}
 
     except Exception as e:
@@ -113,20 +112,20 @@ def webhook(request: Request):
 
 # Эндпоинт для проверки работоспособности
 @app.get("/")
-def index():
+async def index():
     return {"message": "Bot is running"}
 
 # Инициализация при запуске
 @app.on_event("startup")
-def startup():
-    application.initialize()
-    application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
+async def startup():
+    await application.initialize()
+    await application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
 
 @app.on_event("shutdown")
-def on_shutdown():
+async def on_shutdown():
     # удаляем вебхук и чисто останавливаем бота
-    application.bot.delete_webhook()
-    application.shutdown()
+    await application.bot.delete_webhook()
+    await application.shutdown()
 
 
 
