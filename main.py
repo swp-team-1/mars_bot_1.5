@@ -35,12 +35,27 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         reply_markup=main_keyboard,
     )
     api_check_user = f"https://swpdb-production.up.railway.app/users/{update.effective_user.id}/"
-    if requests.get(api_check_user).status_code == 200:
-        await update.message.reply_text(
-            "Вы уже зарегистрированы!",
-            reply_markup=main_keyboard,
-        )
-        return ConversationHandler.END
+    # if  requests.get(api_check_user).status_code == 200:
+    #     await update.message.reply_text(
+    #         "Вы уже зарегистрированы!",
+    #         reply_markup=main_keyboard,
+    #     )
+    #     return ConversationHandler.END
+    async with httpx.AsyncClient() as client:
+        try:
+            response_get_user = await client.get(api_check_user)
+            if response_get_user.status_code == 200:
+                await update.message.reply_text(
+                    "Вы уже зарегистрированы!",
+                    reply_markup=main_keyboard,
+                )
+                return ConversationHandler.END
+        except httpx.RequestError as e:
+            await update.message.reply_text(
+                "Ошибка при запросе на сервере. Обратитесь к администратору",
+                reply_markup=main_keyboard,
+            )
+            return ConversationHandler.END
     await update.message.reply_text(
         "Пожалуйста, введите ваше имя: ",
         reply_markup=main_keyboard,
@@ -51,22 +66,29 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_name = update.message.text
     context.user_data['name'] = user_name  # Сохраняем имя
 
-    await update.message.reply_text(
-        f"Отлично, {user_name}! Теперь вы можете пользоваться ботом.",
-        reply_markup=main_keyboard,
-    )
+
     payload_name_json = {
         "_id" : update.effective_user.id,
         "name" : user_name,
     }
     api_create_user = "https://swpdb-production.up.railway.app/users/"
     response_name = requests.post(api_create_user, json=payload_name_json)
-    # if response_name.status_code == 200:
-    #     print("yra")
-    # else:
-    #     print("no")
+    async with httpx.AsyncClient() as client:
+        try:
+            await client.post(api_create_user, json=payload_name_json)
+            await update.message.reply_text(
+                f"Отлично, {user_name}! Теперь вы можете пользоваться ботом.",
+                reply_markup=main_keyboard,
+            )
+        except httpx.RequestError as e:
+            await update.message.reply_text(
+                "Ошибка при запросе на сервере. Обратитесь к администратору",
+                reply_markup=main_keyboard,
+
+            )
 
     return ConversationHandler.END
+
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Отмена ввода имени"""
     await update.message.reply_text(
