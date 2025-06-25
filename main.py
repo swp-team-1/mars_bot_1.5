@@ -44,7 +44,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     async with httpx.AsyncClient() as client:
         try:
             response_get_user = await client.get(api_check_user)
-            if response_get_user.status_code in (200, 201):
+            if response_get_user.status_code == 200:
                 await update.message.reply_text(
                     "Вы уже зарегистрированы!",
                     reply_markup=main_keyboard,
