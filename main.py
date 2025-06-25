@@ -110,10 +110,48 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 
-async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True)
+WAITING_FOR_MESSAGE = 1
+async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True, one_time_keyboard=True)
+    context.user_data['last_message'] = None
     await update.message.reply_text("Напишите запрос:", reply_markup=ask_keyboard)
-
+    async with httpx.AsyncClient() as client:
+        api_create_conv = "https://swpdb-production.up.railway.app/conversations/"
+        payload_conv_json = {
+            "user_id": update.effective_user.id,
+            "messages": []
+        }
+        try:
+            response_create_conv = await client.post(api_create_conv, json=payload_conv_json)
+            context.user_data['conv_id'] = response_create_conv.json().get("_id")
+        except httpx.RequestError as e:
+            await update.message.reply_text(
+                "Ошибка на сервере -> обратитесь к админинстратору",
+                reply_markup=main_keyboard,
+            )
+        return WAITING_FOR_MESSAGE
+async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    user_text = update.message.text
+    context.user_data['last_message'] = user_text
+    await update.message.reply_text(
+        f"ваш текст: {user_text}",
+        reply_markup=main_keyboard,
+    )
+    api_add_message = f"https://swpdb-production.up.railway.app/conversations/{context.user_data['conv_id']}/messages"
+    payload_add_message = {
+        "sender" : "user",
+        "text" : user_text,
+        "time" : update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            response_add_message = await client.post(api_add_message, json=payload_add_message)
+        except httpx.RequestError as e:
+            await update.message.reply_text(
+                "Обратитесь к администратору(((", 
+                reply_markup=main_keyboard,
+            )
+    return WAITING_FOR_MESSAGE
 # ===== Регистрация обработчиков =====
 def register_handlers():
     conv_handler_start = ConversationHandler(
@@ -131,7 +169,22 @@ def register_handlers():
     application.add_handler(conv_handler_start)
     application.add_handler(CommandHandler("help", help_command))
 
-    application.add_handler(CommandHandler("ask", ask))
+    ask_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("ask", ask)],
+        states={
+            WAITING_FOR_MESSAGE: [
+                MessageHandler(
+                    filters.TEXT & ~filters.COMMAND,
+                    ask_handler
+                )
+            ],
+        },
+        fallbacks=[
+            CommandHandler("cancel", cancel),
+            MessageHandler(filters.Regex("^Отмена$"), cancel),
+        ],
+    )
+    application.add_handler(ask_conv_handler)
 
 
 register_handlers()
