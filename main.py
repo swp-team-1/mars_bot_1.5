@@ -72,7 +72,6 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "name" : user_name,
     }
     api_create_user = "https://swpdb-production.up.railway.app/users/"
-    response_name = requests.post(api_create_user, json=payload_name_json)
     async with httpx.AsyncClient() as client:
         try:
             await client.post(api_create_user, json=payload_name_json)
