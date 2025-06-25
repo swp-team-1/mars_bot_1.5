@@ -26,15 +26,15 @@ main_keyboard = ReplyKeyboardMarkup(
 application = Application.builder().token(TOKEN).build()
 
 # Обработчики команд (остаются без изменений)
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print("⚡ Команда /start получена!")
-    await update.message.reply_text(
+    update.message.reply_text(
         "Привет! Я первая версия бота для нашего супер проекта про рекомендательные системы",
         reply_markup=main_keyboard,
     )
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
+def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message.reply_text(
         "Доступные команды:\n"
         "/ask - задать вопрос\n"
         "/help - основные правила пользования ботом\n"
@@ -45,36 +45,36 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
 
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"📨 Получено сообщение: {update.message.text}")
-    await update.message.reply_text(
+    update.message.reply_text(
         update.message.text,
         reply_markup=main_keyboard
     )
 
-async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
+def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message.reply_text(
         "Чат обновлен!",
         reply_markup=main_keyboard
     )
-async def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
+def log_in(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message.reply_text(
         "Пройдите регистрацию в боте!",
         reply_markup=main_keyboard
     )
-async def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
+def log_out(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message.reply_text(
         "Вы вышли из своего аккаунта",
         reply_markup=main_keyboard
     )
-async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Специальная клавиатура для команды ask
     ask_keyboard = ReplyKeyboardMarkup(
         [["Отмена"]],
         resize_keyboard=True,
         one_time_keyboard=True
     )
-    await update.message.reply_text(
+    update.message.reply_text(
         "Напишите свой запрос! Я постараюсь помочь вам!",
         reply_markup=ask_keyboard
     )
@@ -127,6 +127,7 @@ async def on_shutdown():
     # удаляем вебхук и чисто останавливаем бота
     await application.bot.delete_webhook()
     await application.shutdown()
+
 
 
 
