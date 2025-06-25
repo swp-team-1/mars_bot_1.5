@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, status
+
 from contextlib import asynccontextmanager
 import logging
 import os
@@ -12,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Получение переменных окружения
-TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+TOKEN = "8037361730:AAGYYuoPNuewlq5ufMpaT0VBZFG5qDAgaAQ"
+WEBHOOK_URL = "https://bot_aio.vercel.app"
 WEBHOOK_PATH = "/webhook"
 
 
@@ -83,34 +84,10 @@ async def about_us_handler(message: types.Message) -> None:
     await message.answer(get_about_us_text())
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Код, выполняющийся при запуске приложения
-    webhook_url = f"{WEBHOOK_URL}{WEBHOOK_PATH}"
-
-    try:
-        await bot.set_webhook(
-            url=webhook_url,
-            allowed_updates=dp.resolve_used_update_types(),
-            drop_pending_updates=True
-        )
-        logger.info(f"Webhook успешно установлен: {webhook_url}")
-    except Exception as e:
-        logger.error(f"Ошибка при установке webhook: {e}")
-        raise
-
-    yield  # Приложение работает
-
-    # Код, выполняющийся при завершении работы приложения
-    try:
-        await bot.delete_webhook()
-        logger.info("Webhook успешно удален")
-    except Exception as e:
-        logger.error(f"Ошибка при удалении webhook: {e}")
 
 
 # Инициализация FastAPI с методом жизненного цикла
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 
 # Маршрут для проверки работоспособности
