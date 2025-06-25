@@ -9,7 +9,7 @@ from telegram.ext import (
 )
 import os
 import uvicorn  # Добавляем для запуска сервера
-
+import httpx
 
 
 
