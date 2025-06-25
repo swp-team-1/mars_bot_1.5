@@ -93,6 +93,40 @@ def register_handlers():
 register_handlers()
 
 
+# Webhook эндпоинт для Telegram
+@app.post("/webhook")
+async def webhook(request: Request):
+    try:
+        if not application._initialized:
+            print("⚠️ Инициализируем и запускаем application вручную (cold start)")
+            await application.initialize()
+
+        json_data = await request.json()
+        print("📡 Получен update:", json_data)
+        update = Update.de_json(json_data, application.bot)
+        await application.process_update(update)
+        return {"status": "ok"}
+
+    except Exception as e:
+        print("❌ Ошибка при обработке webhook:", str(e))
+        return {"status": "error", "message": str(e)}
+
+# Эндпоинт для проверки работоспособности
+@app.get("/")
+async def index():
+    return {"message": "Bot is running"}
+
+# Инициализация при запуске
+@app.on_event("startup")
+async def startup():
+    await application.initialize()
+    await application.bot.set_webhook(url=f"{WEBHOOK_URL}/webhook")
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    # удаляем вебхук и чисто останавливаем бота
+    await application.bot.delete_webhook()
+    await application.shutdown()
 
 @app.post("/webhook")
 async def webhook(request: Request):
@@ -104,6 +138,8 @@ async def webhook(request: Request):
 @app.get("/")
 async def index():
     return {"message": "Bot is running"}
+
+
 
 # # Для локальной разработки (опционально)
 # if __name__ == "__main__":
