@@ -100,6 +100,11 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         del context.user_data['conv_id']
 
     return ConversationHandler.END
+async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    if 'conv_id' in context.user_data:
+        del context.user_data['conv_id']
+
+    return ConversationHandler.END
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -184,7 +189,7 @@ def register_handlers():
         },
         fallbacks=[
             CommandHandler("cancel", cancel),
-            MessageHandler(filters.COMMAND, cancel),
+            MessageHandler(filters.COMMAND, cancel_for_asking),
         ],
     )
     application.add_handler(ask_conv_handler)
