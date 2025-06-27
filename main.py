@@ -184,7 +184,7 @@ def register_handlers():
         },
         fallbacks=[
             CommandHandler("cancel", cancel),
-            MessageHandler(filters.Regex("^Отмена$"), cancel),
+            MessageHandler(filters.COMMAND, cancel),
         ],
     )
     application.add_handler(ask_conv_handler)
