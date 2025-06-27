@@ -101,9 +101,15 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
     return ConversationHandler.END
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    command = update.message.text.split()[0]  # Получаем команду (/help, /start и т. д.)
     if 'conv_id' in context.user_data:
         del context.user_data['conv_id']
-
+    if command == "/help":
+        await help_command(update, context)  # Предположим, что у вас есть функция help_command
+    elif command == "/start":
+        await start(update, context)
+    elif command == "/ask":
+        await ask(update, context)
     return ConversationHandler.END
 
 
