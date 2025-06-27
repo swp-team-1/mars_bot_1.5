@@ -117,7 +117,7 @@ WAITING_FOR_MESSAGE = 1
 async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True, one_time_keyboard=True)
     context.user_data['last_message'] = None
-    await update.message.reply_text("Напишите запрос:", reply_markup=main_keyboard)
+    await update.message.reply_text("Напишите запрос! Чтобы завершить диалог, выберите другую команду или нажните /cancel", reply_markup=main_keyboard)
     async with httpx.AsyncClient() as client:
         api_create_conv = "https://swpdb-production.up.railway.app/conversations/"
         payload_conv_json = {
