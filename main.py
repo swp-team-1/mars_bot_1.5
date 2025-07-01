@@ -11,7 +11,8 @@ from telegram.ext import (
 import os
 import uvicorn  # Добавляем для запуска сервера
 import httpx
-
+from LLM import *
+model = GPTAPIClient()
 
 
 app = FastAPI()
@@ -149,8 +150,9 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_text = update.message.text
     context.user_data['last_message'] = user_text
+    response_to_bot = model.generate_response(user_message=user_text)
     await update.message.reply_text(
-        f"ваш текст: {user_text}",
+        response_to_bot,
         reply_markup=main_keyboard,
     )
     api_add_message = f"https://swpdb-production.up.railway.app/conversations/{context.user_data['conv_id']}/messages"
@@ -159,6 +161,19 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         "text" : user_text,
         "time" : update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     }
+    payload_add_message_bot = {
+        "sender" : "bot",
+        "text": response_to_bot,
+        "time": update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    }
+    async with httpx.AsyncClient() as client:
+        try:
+            response_add_message_bot = await client.post(api_add_message, json=payload_add_message_bot)
+        except httpx.RequestError as e:
+            await update.message.reply_text(
+                "Обратитесь к админстратору(", 
+                reply_markup=main_keyboard,
+            )
     async with httpx.AsyncClient() as client:
         try:
             response_add_message = await client.post(api_add_message, json=payload_add_message)
