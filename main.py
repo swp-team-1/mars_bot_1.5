@@ -11,8 +11,8 @@ from telegram.ext import (
 import os
 import uvicorn  # Добавляем для запуска сервера
 import httpx
-from LLM import *
-model = GPTAPIClient()
+from perfect_gpt_client import *
+model = PerfectGPTClient()
 
 
 app = FastAPI()
@@ -150,7 +150,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_text = update.message.text
     context.user_data['last_message'] = user_text
-    response_to_bot = model.generate_response(user_message=user_text)
+    response_to_bot = model.generate_perfect_response(question=user_text)
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
