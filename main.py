@@ -150,7 +150,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_text = update.message.text
     context.user_data['last_message'] = user_text
-    response_to_bot = model.generate_perfect_response(question=user_text)
+    response_to_bot = await model.generate_perfect_response(question=user_text)
     print(response_to_bot)
     await update.message.reply_text(
         response_to_bot,
