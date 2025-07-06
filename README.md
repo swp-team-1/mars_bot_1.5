@@ -87,3 +87,9 @@ In this project we use GitHub flow.
  - Prioritization: Critical bugs and blockers first, then new features.
  - Time estimation: If a task takes longer than planned, inform the team in advance.
 
+## Quality assurance
+### Quality attribute scenarios
+Description of quality scenarios: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-assurance/quality-attribute-scenarios.md)
+
+### Automated tests
+
