@@ -1,1 +1,20 @@
 ![UML Diagram](photo_2025-07-06_21-20-50.jpg)
+
+Cohesion
+
+- Telegram Bot is responsible only for receiving and sending messages to the user.
+
+- Middleware handles the processing and routing of requests between components.
+
+- The Database Connector implements all the logic of accessing the database.
+
+- LLM is solely responsible for generating responses based on the received data.
+
+- The database stores all the necessary information and query history.
+
+
+Coupling
+
+- Telegram Bot does not interact directly with either the LLM or the database — it only works with Middleware.
+
+- Middleware acts as the central link, receiving requests from the bot, accessing the database through the Database Connector and interacting with the LLM to receive a response.
