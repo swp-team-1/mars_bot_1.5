@@ -5,7 +5,7 @@
 ### Importance
 The support bot must quickly answer user questions, even during peak load hours. 
 
-#1) Concurrent Users Load
+#### 1) Concurrent Users Load
 
 | Attribute           | Performance Efficiency                  |
 |---------------------|----------------------------------------|
@@ -22,7 +22,7 @@ Perform load testing — simulate 200 simultaneous requests to the bot and measu
 
 ---
 
-# 2) Performance Efficiency: Time-behavior
+#### 2) Performance Efficiency: Time-behavior
 
 #### Importance
 The user should receive a response almost instantly.
@@ -41,7 +41,7 @@ The user should receive a response almost instantly.
 
 ---
 
-#3) Functional Suitability: Functional Correctness
+#### 3) Functional Suitability: Functional Correctness
 
 #### Importance
 The user should receive relevant and correct answers. Any incorrect or "broken" answer reduces the credibility of the system.
