@@ -4,7 +4,7 @@
 ## Development
 ---
 ### Kanban board
-Link to the Kanban desk: https://miro.com/app/board/uXjVIhdsSbg=/?moveToWidget=3458764605022046496&cot=14
+Link to the Kanban desk: https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing
 
 Entry criteria for "TO DO" column:
 
