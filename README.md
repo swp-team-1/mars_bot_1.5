@@ -4,6 +4,7 @@
 ---
 ### Kanban board
 Link to the Kanban desk: https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing
+
 or this link, if you have account in Miro: https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing
 
 **Entry criteria for "TO DO" column:**
