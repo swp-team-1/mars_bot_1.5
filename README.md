@@ -10,7 +10,7 @@ Entry criteria for "TO DO" column:
  - Prioritize amoung issues
  - A performer has been appointed
  - A branch has been created in the repository
- - 
+
 
 Entry criteria for "In progress" column:
 
@@ -20,7 +20,6 @@ Entry criteria for "In progress" column:
 
 Entry criteria for "In review" column:
 
- - sfd
  - 
 
 Entry criteria for "Ready to deploy" column:
