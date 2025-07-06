@@ -66,7 +66,8 @@ In this project we use GitHub flow.
 **Creating a pull request for an issue using a pull request**
 - 
 **Illustrate your git workflow using a Gitgraph diagram.**
-![Diagram](Untitled diagram _ Mermaid Chart-2025-07-06-171952.png)
+![GitGraph diagram](Untitled%20diagram%20_%20Mermaid%20Chart-2025-07-06-171952.png)
+
 
 **Code reviews**
  Pay attention to:
