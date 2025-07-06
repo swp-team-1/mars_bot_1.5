@@ -65,6 +65,8 @@ In this project we use GitHub flow.
 
 **Creating a pull request for an issue using a pull request**
 - 
+**Illustrate your git workflow using a Gitgraph diagram.**
+![Diagram](assets/gitgraph-diagram.png)
 
 **Code reviews**
  Pay attention to:
