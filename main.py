@@ -226,7 +226,7 @@ class QuestionRequest(BaseModel):
 @app.post("/send_response")
 async def send_response(request: QuestionRequest)-> str:
     """This endpoint send the question from the user to the LLM model"""
-    answer = model.generate_perfect_response(request.question)
+    answer = await model.generate_perfect_response(request.question)
     return answer
 # ===== Вебхук и запуск =====
 @app.post("/webhook")
