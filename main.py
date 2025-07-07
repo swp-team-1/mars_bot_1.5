@@ -220,7 +220,11 @@ def register_handlers():
 
 
 register_handlers()
-
+@app.post("/send_response")
+async def send_response(question)-> str:
+    """This endpoint send the question from the user to the LLM model"""
+    answer = model.generate_perfect_response(question)
+    return answer
 # ===== Вебхук и запуск =====
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
