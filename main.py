@@ -220,10 +220,12 @@ def register_handlers():
 
 
 register_handlers()
+class QuestionRequest(BaseModel):
+    question: str
 @app.post("/send_response")
-async def send_response(question)-> str:
+async def send_response(request: QuestionRequest)-> str:
     """This endpoint send the question from the user to the LLM model"""
-    answer = model.generate_perfect_response(question)
+    answer = model.generate_perfect_response(request.question)
     return answer
 # ===== Вебхук и запуск =====
 @app.post("/webhook")
