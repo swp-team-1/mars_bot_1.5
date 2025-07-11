@@ -3,3 +3,4 @@ python-telegram-bot>=20.8
 uvicorn==0.22.0
 httpx==0.28.1
 requests==2.32.4
+dotenv==1.1.1
