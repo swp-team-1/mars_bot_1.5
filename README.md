@@ -1,4 +1,4 @@
-# bot_aio
+# A Multi-Agent Conversational Recommender System
 ## Introduction
 
 ## Development
