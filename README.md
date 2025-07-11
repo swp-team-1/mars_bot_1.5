@@ -89,7 +89,7 @@ In this project we use GitHub flow.
 - When developing locally, store variables in the .env file to avoid accidentally uploading them to the network.
 - Never commit passwords, API keys, tokens, or other secrets directly to a repository (even a private one).
 
-**Resolving issues**
+**Resolving issues** 
  - Prioritization: Critical bugs and blockers first, then new features.
  - Time estimation: If a task takes longer than planned, inform the team in advance.
 
