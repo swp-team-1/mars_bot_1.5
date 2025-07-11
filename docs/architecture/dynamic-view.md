@@ -1,4 +1,4 @@
-![UML Diagram](mars_bot_1.5/structure/UML_sequence_diagram.png)
+![UML Diagram]([mars_bot_1.5/structure/UML_sequence_diagram.png](https://github.com/swp-team-1/mars_bot_1.5/blob/main/structure/UML_sequence_diagram.png))
 
 - Average system response time based on test results in a production environment:
 
