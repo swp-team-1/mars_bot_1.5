@@ -65,12 +65,8 @@ There is some rules for work in our team:
 ### Gitgraph diagram
 ![GitGraph diagram](structure/Gitgraph_diagram_for_git_workflow.png)
 
-#### Code reviews
- _Pay attention to:_
- - code clarity
- - code style
- - tests (new code should include unit/integration tests, if applicable)
- - have documentation
+**Code reviews**
+ _Pay attention to:_ 1. Code clarity, 2. Code style, 3. Tests (new code should include unit/integration tests, if applicable), 4. Documentation
 
 **Merging pull requests**
  - Minimum 2 approves
