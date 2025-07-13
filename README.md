@@ -62,7 +62,7 @@ There is some rules for work in our team:
  - Briefly and clearly describe two things: which file/directory has changed, and what changes have occurred.
 
 ### Gitgraph diagram
-![GitGraph diagram](structure/Gitgraph_diagram_for_git_workflow.png)
+![GitGraph diagram](structure/Gitgraph_workflow_diagram.png)
 
 **Code reviews** _(Pay attention to:)_ 
  - Code clarity
