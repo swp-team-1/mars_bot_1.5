@@ -25,11 +25,13 @@ Telegram bot for optimizing the Namazapp app support chat.
 - Provide the explanation how model work
 
 ## Usage instructions
+You can use our bot by launching it using the [provided link](https://t.me/mvp_1_5_bot). No further action is required.
 
 ## Deployment instructions
-
+The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
+1. 
 # Development
-[**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [link](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
+[**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [**link**](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 
 ## Entry criteria
 
