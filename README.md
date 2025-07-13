@@ -3,7 +3,11 @@
   <h1 style="margin: 0;"> A Multi-Agent Conversational Recommender System </h1>
 </div>
 
-## Introduction
+Telegram bot for optimizing the Namazapp app support chat.
+
+[Up-to-date deployed version](https://t.me/mvp_1_5_bot)
+
+[Demo video](https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view)
 
 ## Development
 ---
