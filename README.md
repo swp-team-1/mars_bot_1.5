@@ -32,44 +32,12 @@ Telegram bot for optimizing the Namazapp app support chat.
 ---
 [**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [link](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 
-## Entry criteria for...
+## Entry criteria
 
 | **TO DO**               | **In progress**       | **In review**               | **Ready to deploy**     | **User testing**       | **DONE**          |
 |-------------------------------------|----------------------------------|----------------------------------------|------------------------------------|-----------------------------------|-----------------------------|
 | - Discussion problem with team members<br><br>- Prioritize among issues<br><br>- A performer has been appointed<br><br>- A branch has been created in the repository | - Prioritize among issues<br><br>- Issues are estimated<br><br>- MR has been created | - Code fully implemented and self-reviewed<br><br>- Pass all tests<br><br>- Branch rebased on main<br><br>- min 2 reviewers assigned | - MR is approved<br><br>- The documentation is updated<br><br>- All tasks for this issue are closed | - Test Environment Ready<br><br>- Customer is informed | - Deployment is done<br><br>- Documentation is done<br><br>- Testing is complete |
   
-  
-**... for _"TO DO"_ column:**
- - Discussion problem with team members
- - Prioritize amoung issues
- - A performer has been appointed
- - A branch has been created in the repository
-
-**... for _"In progress"_ column:**
- - Prioritize amoung issues
- - Issues are estimated
- - MR has been created
-
-**... for _"In review"_ column:**
- - Code fully implemented and self-reviewed
- - Pass all tests
- - Branch rebased on main
- - two reviewers assigned
-
-**... for_ "Ready to deploy"_ column:**
- - MR is approved
- - The documentation is updated
- - All tasks for this issue are closed
-
-**... for _"User testing"_ column:**
- - Test Environment Ready
- - Customer is informed
-
-**... for _"DONE"_ column:**
- - Deployment is done
- - Documentation is done
- - Testing is complete
-   
 ## Git workflow
 In this project we use GitHub flow.
 
