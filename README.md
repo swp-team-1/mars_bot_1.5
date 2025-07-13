@@ -31,6 +31,7 @@ You can use our bot by launching it using the [provided link](https://t.me/mvp_1
 The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
 1. Register or log in to your Railway account
 2. Click to button to deploy new project
+   
 ![second_step](docs/deploy_instruction_pictures/first_step.png)
 3. And choose project to deploy from the Github
 ![third_step](docs/deploy_instruction_pictures/second_step.png)
