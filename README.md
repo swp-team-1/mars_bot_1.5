@@ -45,18 +45,18 @@ Our team has several rules of operation:
  - Try to fill in all the fields in detail and correctly
 
 **Labelling issues**
- - Mark tasks with a label based on the size of the task (S, M, L)
- - Use a label to mark the urgency level of a task and its priority (high, medium, low)
+ - Mark tasks with a label based on the size of the task _(S, M, L)_
+ - Use a label to mark the urgency level of a task and its priority _(high, medium, low)_
  - Use type labels such as "Task", "Bug" etc
 
 **Assigning issues to team members**
- - Distribute the load evenly (no more than 2-3 L-tasks per person for a sprint)
+ - Distribute the load evenly _(no more than 2-3 L-tasks per person for a sprint)_
  - Assign tasks based on a person's specialization
  - The assigned executor is responsible for progress and timely status updates.
 
 **Creating, naming, merging branches**
  - When creating a branch, name it according to its purpose
- - Make sure that name does not match the name of any existing (git branch --list)
+ - Make sure that name does not match the name of any existing _(git branch --list)_
  - Merge the branch only after you've tested the code and made sure it works
 
 **Commit messages format**
@@ -65,27 +65,26 @@ Our team has several rules of operation:
 ### Gitgraph diagram
 ![GitGraph diagram](structure/Gitgraph_workflow_diagram.png)
 
-**Code reviews** _(Pay attention to:)_ 
+**Code reviews** ( Pay attention to: )
  - Code clarity
- - Code style
- - Tests (new code should include unit/integration tests, if applicable)
+ - Code style_
+ - Tests _(new code should include unit/integration tests, if applicable)
  - Documentation
 
 **Merging pull requests**
  - Minimum 2 approves
- - All tests pass (CI/CD pipeline must be successful)
+ - All tests pass _(CI/CD pipeline must be successful)_
  - Before merging, you must make sure that there are no conflicts with the main branch.
 
 ### Secrets management 
 **Rules for secrets management:**
 - Do not store secrets in the code, but use environment variables for this purpose when uploading the code somewhere.
 - When developing locally, store variables in the .env file to avoid accidentally uploading them to the network.
-- Never commit passwords, API keys, tokens, or other secrets directly to a repository (even a private one).
+- Never commit passwords, API keys, tokens, or other secrets directly to a repository _(even a private one)_.
 
 **Resolving issues** 
- - Prioritization: Critical bugs and blockers first, then new features.
- - Time estimation: If a task takes longer than planned, inform the team in advance.
-
+ - **Prioritization:** Critical bugs and blockers first, then new features.
+ - **Time estimation:** If a task takes longer than planned, inform the team in advance.
 
 # Build and deployment
 
@@ -191,6 +190,4 @@ Our project uses two separate CI pipelines: one for the database connector and o
     - You can see the full test suite [here](https://github.com/Black-persik/bot_aio/blob/tests/tests/test_all.py).
   
 ### Quality attribute scenarios
-Description of quality scenarios: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-assurance/quality-attribute-scenarios.md)
-
-
+[**Description of quality scenarios**](docs/quality-assurance/quality-attribute-scenarios.md)
