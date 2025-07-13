@@ -31,16 +31,16 @@ You can use our bot by launching it using the [provided link](https://t.me/mvp_1
 The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
 1. Register or log in to your Railway account
 2. Click to button to deploy new project
-[second_step](docs/deploy_instruction_pictures/first_step.png)
+![second_step](docs/deploy_instruction_pictures/first_step.png)
 3. And choose project to deploy from the Github
-[third_step](docs/deploy_instruction_pictures/second_step.png)
+![third_step](docs/deploy_instruction_pictures/second_step.png)
 4. Add enviroment variables:
-   [fourth_step](docs/deploy_instruction_pictures/third_step.png)
+   ![fourth_step](docs/deploy_instruction_pictures/third_step.png)
    4.1 Set your bot token
    4.2 Set webhook URL. You can find it in Settings -> Networking section
-   [fourth_second_step](docs/deploy_instruction_pictures/fourth_step.png)
+   ![fourth_second_step](docs/deploy_instruction_pictures/fourth_step.png)
 6. Deploy project and make adjustments according to the logs
-[fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
+![fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
 
 # Development
 [**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [**link**](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
