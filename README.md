@@ -29,55 +29,16 @@ You can use our bot by launching it using the [provided link](https://t.me/mvp_1
 
 ## Deployment instructions
 The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
-
-<ol>
-  <li>Register or log in to your Railway account</li>
-  
-  <li>Click the button to deploy new project
-    <div style="text-align: center; margin: 10px 0;">
-      <img src="docs/deploy_instruction_pictures/first_step.png" alt="Deploy new project" style="max-width: 500px; border: 1px solid #ddd; border-radius: 4px;">
-    </div>
-  </li>
-  
-  <li>Choose project to deploy from GitHub
-    <div style="text-align: center; margin: 10px 0;">
-      <img src="docs/deploy_instruction_pictures/second_step.png" alt="Choose project" style="max-width: 500px; border: 1px solid #ddd; border-radius: 4px;">
-    </div>
-  </li>
-  
-  <li>Add environment variables:
-    <div style="text-align: center; margin: 10px 0;">
-      <img src="docs/deploy_instruction_pictures/third_step.png" alt="Environment variables" style="max-width: 500px; border: 1px solid #ddd; border-radius: 4px;">
-    </div>
-    <ol type="a">
-      <li>Set your bot token</li>
-      <li>Set webhook URL (find it in Settings → Networking section)
-        <div style="text-align: center; margin: 10px 0;">
-          <img src="docs/deploy_instruction_pictures/fourth_step.png" alt="Webhook URL" style="max-width: 500px; border: 1px solid #ddd; border-radius: 4px;">
-        </div>
-      </li>
-    </ol>
-  </li>
-  
-  <li>Deploy project and make adjustments according to the logs
-    <div style="text-align: center; margin: 10px 0;">
-      <img src="docs/deploy_instruction_pictures/congradilations.png" alt="Deployment success" style="max-width: 500px; border: 1px solid #ddd; border-radius: 4px;">
-    </div>
-  </li>
-</ol>
-
-## Deployment instructions
-The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
 1. Register or log in to your Railway account
 2. Click to button to deploy new project
 ![second_step](docs/deploy_instruction_pictures/first_step.png)
 3. And choose project to deploy from the Github
 ![third_step](docs/deploy_instruction_pictures/second_step.png)
 4. Add enviroment variables:
-   ![fourth_step](docs/deploy_instruction_pictures/third_step.png)
-   4.1 Set your bot token
-   4.2 Set webhook URL. You can find it in Settings -> Networking section
-   ![fourth_second_step](docs/deploy_instruction_pictures/fourth_step.png)
+![fourth_step](docs/deploy_instruction_pictures/third_step.png)
+- 4.1 Set your bot token
+- 4.2 Set webhook URL. You can find it in Settings -> Networking section
+![fourth_second_step](docs/deploy_instruction_pictures/fourth_step.png)
 6. Deploy project and make adjustments according to the logs
 ![fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
 
