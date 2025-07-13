@@ -197,4 +197,11 @@ Our project uses two separate CI pipelines: one for the database connector and o
 ### Quality attribute scenarios
 Description of quality scenarios: [docs/quality-assurance/quality-attribute-scenarios.md](docs/quality-assurance/quality-attribute-scenarios.md)
 
+## 📚 Documentation
 
+- [CONTRIBUTING.md](CONTRIBUTING.md)
+- [Quality Attribute Scenarios](docs/quality-attributes/quality-attribute-scenarios.md)
+- [Automated Tests](docs/quality-assurance/automated-tests.md)
+- [CI Process](docs/automation/continuous-integration.md)
+- [CD Process](docs/automation/continuous-delivery.md)
+- [Architecture Overview](docs/architecture/architecture.md)
