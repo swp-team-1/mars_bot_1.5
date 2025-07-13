@@ -12,9 +12,18 @@ Telegram bot for optimizing the Namazapp app support chat.
 ## Project Goal
 - Automate the support chat in the app, allowing users to get an answer right away to any question
 
-## Project Context Diaagram
-![Project Context Diaagram](structure/Project_context_diagram.png)
- 
+## Project Context Diagram
+![Project Context Diagram](structure/Project_context_diagram.png)
+
+## Feature Roadmap
+✅ Bot can understand the context
+✅ Bot can understand the app structure
+✅ User can create multiple conversation
+✅ User can ask everything about namaz
+- User can send voice messages
+- Endpoint for Namaz.app
+- Provide the explanation how model work
+
 ## Development
 ---
 ### Kanban board
