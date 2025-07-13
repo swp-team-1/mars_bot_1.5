@@ -1,0 +1,6 @@
+site_name: MARS Docs
+
+theme:
+  name: material
+  palette:
+    scheme: slate
