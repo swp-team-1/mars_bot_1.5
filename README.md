@@ -28,8 +28,7 @@ Telegram bot for optimizing the Namazapp app support chat.
 
 ## Deployment instructions
 
-## Development
----
+# Development
 [**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [link](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 
 ## Entry criteria
