@@ -94,10 +94,10 @@ In this project we use GitHub flow.
 
 **Code reviews**
  _Pay attention to:_
-     - code clarity
-     - code style
-     - tests (new code should include unit/integration tests, if applicable)
-     - have documentation
+ - code clarity
+ - code style
+ - tests (new code should include unit/integration tests, if applicable)
+ - have documentation
 
 **Merging pull requests**
  - Minimum 2 approves
