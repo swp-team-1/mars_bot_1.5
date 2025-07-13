@@ -90,22 +90,15 @@ There is some rules for work in our team:
 
 ## Build and deployment
 
-### Continuous Integration
+## Continuous Integration
 
 Our project uses two separate CI pipelines: one for the database connector and one for the bot.
-
----
 
 #### Database connector CI
 
 - **CI Workflow:** [`.github/workflows/test.yml`](https://github.com/hermitdesu/SWP_DB/blob/main/.github/workflows/test.yml)
 
 - **Static Analysis and Testing Tools Used:**
-  - **pytest**  
-  - **flake8**  
-  - **bandit**  
-
-- **What Each Tool Is For:**
   - **pytest:** Runs automated tests to verify code correctness.
   - **flake8:** Ensures code style consistency and catches simple errors.
   - **bandit:** Scans the codebase for security vulnerabilities.
@@ -121,9 +114,9 @@ Our project uses two separate CI pipelines: one for the database connector and o
 - **CI Workflow:** [`bot_aio/.github/workflows/test.yml`](https://github.com/Black-persik/bot_aio/blob/tests/.github/workflows/test.yml)
 
 - **Static Analysis and Testing Tools Used:**
-  - - **flake8:** Ensures code style consistency and catches both critical and stylistic errors.
-  - - **mypy:** Checks for type errors and enforces type safety.
-  - - **pytest:** Runs automated tests to verify code correctness.
+  - **flake8:** Ensures code style consistency and catches both critical and stylistic errors.
+  - **mypy:** Checks for type errors and enforces type safety.
+  - **pytest:** Runs automated tests to verify code correctness.
 
 - **Where to See CI Workflow Runs:**  
   You can view all bot CI workflow runs for this project here:  
