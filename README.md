@@ -32,14 +32,14 @@ Telegram bot for optimizing the Namazapp app support chat.
 ---
 [**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [link](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 
-## Entry criteria
+## Entry criteria for...
 
-| **Колонка 1**       | **Колонка 2**       |
-|----------------------|----------------------|
-| Текст или списки.    | Вторая колонка.      |
-| - Пункт 1            | Можно вставлять:     |
-| - Пункт 2            | - Код                |
-|                      | - Изображения        |
+| ** _"TO DO"_ column:** | **_"In progress"_ column:**       |
+|-------------------------------------------|----------------------|
+| - Discussion problem with team members    | Вторая колонка.      |
+| - Prioritize amoung issues   | Можно вставлять:     |
+| - A performer has been appointed   | - Код                |
+| - A branch has been created in the repository        | - Изображения        |
   
   
 **... for _"TO DO"_ column:**
