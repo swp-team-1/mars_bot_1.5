@@ -65,7 +65,7 @@ There is some rules for work in our team:
 ### Gitgraph diagram
 ![GitGraph diagram](structure/Gitgraph_diagram_for_git_workflow.png)
 
-####Code reviews
+#### Code reviews
  _Pay attention to:_
  - code clarity
  - code style
