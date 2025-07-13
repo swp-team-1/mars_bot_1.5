@@ -38,7 +38,7 @@ Telegram bot for optimizing the Namazapp app support chat.
 | - Discussion problem with team members<br><br>- Prioritize among issues<br><br>- A performer has been appointed<br><br>- A branch has been created in the repository | - Prioritize among issues<br><br>- Issues are estimated<br><br>- MR has been created | - Code fully implemented and self-reviewed<br><br>- Pass all tests<br><br>- Branch rebased on main<br><br>- min 2 reviewers assigned | - MR is approved<br><br>- The documentation is updated<br><br>- All tasks for this issue are closed | - Test Environment Ready<br><br>- Customer is informed | - Deployment is done<br><br>- Documentation is done<br><br>- Testing is complete |
   
 ## Git workflow
-In this project we use GitHub flow.
+There is some rules for work in our team:
 
 #### Creating issues from the defined templates
  - We use the templates when creating
