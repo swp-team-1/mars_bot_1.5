@@ -10,7 +10,7 @@ Telegram bot for optimizing the Namazapp app support chat.
 [Demo video](https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view)
 
 ## Project Goal
-# **Automate the support chat in the app, allowing users to get an answer right away to any question.**
+### **Automate the support chat in the app, allowing users to get an answer right away to any question.**
 
 ## Project Context Diagram
 ![Project Context Diagram](structure/Project_context_diagram.png)
