@@ -10,7 +10,7 @@ Telegram bot for optimizing the Namazapp app support chat.
 [**Demo video**](https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view)
 
 ## Project Goal
-### **Automate the support chat in the app, allowing users to get an answer right away to any question.**
+#### **Automate the support chat in the app, allowing users to get an answer right away to any question.**
 
 ## Project Context Diagram
 ![Project Context Diagram](structure/Project_context_diagram.png)
@@ -32,7 +32,7 @@ Telegram bot for optimizing the Namazapp app support chat.
 ---
 [**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [link](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 
-## Entry criteria...
+## Entry criteria
 **... for _"TO DO"_ column:**
  - Discussion problem with team members
  - Prioritize amoung issues
@@ -64,10 +64,10 @@ Telegram bot for optimizing the Namazapp app support chat.
  - Documentation is done
  - Testing is complete
    
-### Git workflow
+## Git workflow
 In this project we use GitHub flow.
 
-**Creating issues from the defined templates**
+#### Creating issues from the defined templates
  - We use the templates when creating
  - Try to fill in all the fields in detail and correctly
 
@@ -89,14 +89,11 @@ In this project we use GitHub flow.
 **Commit messages format**
  - Briefly and clearly describe two things: which file/directory has changed, and what changes have occurred.
 
-**Creating a pull request for an issue using a pull request**
-- 
-**Illustrate your git workflow using a Gitgraph diagram.**
+### Gitgraph diagram
 ![GitGraph diagram](structure/Gitgraph_diagram_for_git_workflow.png)
 
-
 **Code reviews**
- Pay attention to:
+ _Pay attention to:_
      - code clarity
      - code style
      - tests (new code should include unit/integration tests, if applicable)
@@ -108,7 +105,6 @@ In this project we use GitHub flow.
  - Before merging, you must make sure that there are no conflicts with the main branch.
 
 ### Secrets management 
-
 **Rules for secrets management:**
 - Do not store secrets in the code, but use environment variables for this purpose when uploading the code somewhere.
 - When developing locally, store variables in the .env file to avoid accidentally uploading them to the network.
