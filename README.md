@@ -37,7 +37,7 @@ You can use our bot by launching it using the [provided link](https://t.me/mvp_1
 | - Discussion problem with team members<br><br>- Prioritize among issues<br><br>- A performer has been appointed<br><br>- A branch has been created in the repository | - Prioritize among issues<br><br>- Issues are estimated<br><br>- MR has been created | - Code fully implemented and self-reviewed<br><br>- Pass all tests<br><br>- Branch rebased on main<br><br>- min 2 reviewers assigned | - MR is approved<br><br>- The documentation is updated<br><br>- All tasks for this issue are closed | - Test Environment Ready<br><br>- Customer is informed | - Deployment is done<br><br>- Documentation is done<br><br>- Testing is complete |
   
 ## Git workflow
-All project code you can find in our Github, however the main backlog is on our [Gitlab repository](https://gitlab.pg.innopolis.university/dashboard/issues?sort=created_date&state=opened&assignee_username[]=d.evdokimova)
+All project code you can find in our Github, however the main backlog is on our [Gitlab repository](https://gitlab.pg.innopolis.university/dashboard/issues?sort=created_date&state=opened&assignee_username[]=d.evdokimova).<br>
 Our team has several rules of operation:
 
 #### Creating issues from the defined templates
