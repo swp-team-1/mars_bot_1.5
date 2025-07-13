@@ -34,9 +34,9 @@ Telegram bot for optimizing the Namazapp app support chat.
 
 ## Entry criteria for...
 
-| **TO DO**               | **In progress**       | **In review"_ column**               | **Ready to deploy"_ column**     | **User testing"_ column**       | **DONE**          |
+| **TO DO**               | **In progress**       | **In review**               | **Ready to deploy**     | **User testing**       | **DONE**          |
 |-------------------------------------|----------------------------------|----------------------------------------|------------------------------------|-----------------------------------|-----------------------------|
-| - Discussion problem with team members<br>- Prioritize among issues<br>- A performer has been appointed<br>- A branch has been created in the repository | - Prioritize among issues<br>- Issues are estimated<br>- MR has been created | - Code fully implemented and self-reviewed<br>- Pass all tests<br>- Branch rebased on main<br>- min 2 reviewers assigned | - MR is approved<br>- The documentation is updated<br>- All tasks for this issue are closed | - Test Environment Ready<br>- Customer is informed | - Deployment is done<br>- Documentation is done<br>- Testing is complete |
+| - Discussion problem with team members<br><br>- Prioritize among issues<br><br>- A performer has been appointed<br><br>- A branch has been created in the repository | - Prioritize among issues<br><br>- Issues are estimated<br><br>- MR has been created | - Code fully implemented and self-reviewed<br><br>- Pass all tests<br><br>- Branch rebased on main<br><br>- min 2 reviewers assigned | - MR is approved<br><br>- The documentation is updated<br><br>- All tasks for this issue are closed | - Test Environment Ready<br><br>- Customer is informed | - Deployment is done<br><br>- Documentation is done<br><br>- Testing is complete |
   
   
 **... for _"TO DO"_ column:**
