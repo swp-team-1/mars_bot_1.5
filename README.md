@@ -34,19 +34,13 @@ Telegram bot for optimizing the Namazapp app support chat.
 
 ## Entry criteria
 
-<div style="display: flex; gap: 20px;">
-  <div style="flex: 1;">
-
-  **Колонка 1**  
-  Текст или Markdown-контент здесь.  
-  - Списки  
-  - Картинки  
-
-  </div>
-  <div style="flex: 1;">
-
-  **Колонка 2**  
-  Вторая колонка с контентом.  
+| **Колонка 1**       | **Колонка 2**       |
+|----------------------|----------------------|
+| Текст или списки.    | Вторая колонка.      |
+| - Пункт 1            | Можно вставлять:     |
+| - Пункт 2            | - Код                |
+|                      | - Изображения        |
+  
   
 **... for _"TO DO"_ column:**
  - Discussion problem with team members
