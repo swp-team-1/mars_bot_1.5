@@ -33,13 +33,18 @@ The **_Railway_** service is used to deploy our project. To repeat the project d
 2. Click to button to deploy new project
 
 ![second_step](docs/deploy_instruction_pictures/first_step.png)
+
 3. And choose project to deploy from the Github
 ![third_step](docs/deploy_instruction_pictures/second_step.png)
+
 4. Add enviroment variables:
 ![fourth_step](docs/deploy_instruction_pictures/third_step.png)
+
 - 4.1 Set your bot token
 - 4.2 Set webhook URL. You can find it in Settings -> Networking section
+
 ![fourth_second_step](docs/deploy_instruction_pictures/fourth_step.png)
+
 6. Deploy project and make adjustments according to the logs
 ![fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
 
