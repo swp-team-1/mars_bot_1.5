@@ -1,6 +1,6 @@
 <div style="display: flex; align-items: center; gap: 15px;">
   <img src="docs/Logo.png" alt="Логотип" style="height: 50px;" />
-  <h1 style="margin: 0;">A Multi-Agent Conversational Recommender System</h1>
+  <h1 style="margin: 0;"> A Multi-Agent Conversational Recommender System </h1>
 </div>
 
 ## Introduction
