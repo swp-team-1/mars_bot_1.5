@@ -34,12 +34,13 @@ Telegram bot for optimizing the Namazapp app support chat.
 
 ## Entry criteria for...
 
-| ** _"TO DO"_ column:** | **_"In progress"_ column:**       |
-|-------------------------------------------|----------------------|
-| - Discussion problem with team members    | Вторая колонка.      |
-| - Prioritize amoung issues   | Можно вставлять:     |
-| - A performer has been appointed   | - Код                |
-| - A branch has been created in the repository        | - Изображения        |
+| **_"TO DO"_ column:** | **_"In progress"_ column:**       | **... for _"In review"_ column:** | **... for_ "Ready to deploy"_ column:**
+ - MR is approved | 
+|-------------------------------------------|----------------------|------------------------------|
+| - Discussion problem with team members    | - Prioritize amoung issues      | - Code fully implemented and self-reviewed |
+| - Prioritize amoung issues   | Можно вставлять:     | - Issues are estimated |  - Pass all tests |
+| - A performer has been appointed   | - Код                | - MR has been created | - Branch rebased on main
+| - A branch has been created in the repository        |        | - min 2 reviewers assigned |
   
   
 **... for _"TO DO"_ column:**
