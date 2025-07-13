@@ -5,9 +5,9 @@
 
 Telegram bot for optimizing the Namazapp app support chat.
 
-[Up-to-date deployed version](https://t.me/mvp_1_5_bot)
+[**Up-to-date deployed version**](https://t.me/mvp_1_5_bot)
 
-[Demo video](https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view)
+[**Demo video**](https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view)
 
 ## Project Goal
 ### **Automate the support chat in the app, allowing users to get an answer right away to any question.**
@@ -24,10 +24,12 @@ Telegram bot for optimizing the Namazapp app support chat.
 - Endpoint for Namaz.app
 - Provide the explanation how model work
 
+## Usage instructions
+## Deployment instructions
+
 ## Development
 ---
-### Kanban board
-Link to the Kanban desk: https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing
+[**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing)
 
 or this link, if you have account in Miro: https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing
 
