@@ -1,4 +1,4 @@
-# bot_aio
+# A Multi-Agent Conversational Recommender System
 ## Introduction
 
 ## Development
@@ -67,7 +67,7 @@ In this project we use GitHub flow.
 **Creating a pull request for an issue using a pull request**
 - 
 **Illustrate your git workflow using a Gitgraph diagram.**
-![GitGraph diagram](Untitled%20diagram%20_%20Mermaid%20Chart-2025-07-06-171952.png)
+![GitGraph diagram](structure/Gitgraph_diagram_for_git_workflow.png)
 
 
 **Code reviews**
