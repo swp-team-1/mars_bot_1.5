@@ -375,5 +375,5 @@ Our project uses two separate CI pipelines: one for the database connector and o
 - [Automated Tests](docs/quality-assurance/automated-tests.md)
 - [CI Process](docs/automation/continuous-integration.md)
 - [CD Process](docs/automation/continuous-delivery.md)
-- [Architecture Overview](docs/architecture/architecture.md)
+- [Architecture Overview](docs/architecture/architecture.md)ййй
 >>>>>>> main
