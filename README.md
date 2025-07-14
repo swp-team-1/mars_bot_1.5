@@ -378,7 +378,7 @@ Our project uses two separate CI pipelines: one for the database connector and o
 
 - [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 - [Quality Attribute Scenarios](docs/quality-assurance/quality-attribute-scenarios.md)
-- [Automated Tests](docs/quality-assurance/automated-tests.md)
+- [Quality assurance](https://github.com/swp-team-1/database_conector/tree/main/tests)
 - [CI Workflow](https://github.com/swp-team-1/database_conector/blob/main/.github/workflows/test.yml)
 - [CD Process](docs/automation/continuous-delivery.md)
 - ### 🏗 Architecture
