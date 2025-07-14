@@ -1,5 +1,5 @@
 
-## Git workflow
+# Git workflow
 All project code you can find in our Github, however the main backlog is on our [Gitlab repository](https://gitlab.pg.innopolis.university/dashboard/issues?sort=created_date&state=opened&assignee_username[]=d.evdokimova).<br>
 Our team has several rules of operation:
 
