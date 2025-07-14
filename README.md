@@ -376,7 +376,6 @@ Our project uses two separate CI pipelines: one for the database connector and o
 - [CI Workflow](https://github.com/swp-team-1/database_conector/blob/main/.github/workflows/test.yml)
 - [CD Process](docs/automation/continuous-delivery.md)
 - ### 🏗 Architecture
-- [Architecture Overview & Tech Stack](docs/architecture/architecture.md)
 - [Static View](docs/architecture/static-view.md)
 - [Dynamic View](docs/architecture/dynamic-view.md)
 - [Deployment View](docs/architecture/deployment-view.md)
