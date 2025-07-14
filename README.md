@@ -373,7 +373,7 @@ Our project uses two separate CI pipelines: one for the database connector and o
 - [CONTRIBUTING.md](CONTRIBUTING.md)
 - [Quality Attribute Scenarios](docs/quality-assurance/quality-attribute-scenarios.md)
 - [Automated Tests](docs/quality-assurance/automated-tests.md)
-- [CI Process](docs/automation/continuous-integration.md)
+- [CI Workflow](../database_conector/.github/workflows/test.yml)
 - [CD Process](docs/automation/continuous-delivery.md)
 - [Architecture Overview](docs/architecture/architecture.md)
 >>>>>>> main
