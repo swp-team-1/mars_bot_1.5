@@ -26,7 +26,8 @@ Our team has several rules of operation:
  - Briefly and clearly describe two things: which file/directory has changed, and what changes have occurred.
 
 ### Gitgraph diagram
-![Git Workflow](structure/Gitgraph_workflow_diagram.png)
+![Git Workflow](https://github.com/swp-team-1/mars_bot_1.5/blob/main/structure/Gitgraph_workflow_diagram.png?raw=true)
+
 
 **Code reviews** ( Pay attention to: )
  - Code clarity
