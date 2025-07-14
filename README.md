@@ -376,7 +376,7 @@ Our project uses two separate CI pipelines: one for the database connector and o
 
 ## 📚 Documentation
 
-- [CONTRIBUTING.md](https://github.com/swp-team-1/mars_bot_1.5/blob/main/CONTRIBUTING.md)
+- [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 - [Quality Attribute Scenarios](docs/quality-assurance/quality-attribute-scenarios.md)
 - [Automated Tests](docs/quality-assurance/automated-tests.md)
 - [CI Workflow](https://github.com/swp-team-1/database_conector/blob/main/.github/workflows/test.yml)
