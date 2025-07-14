@@ -26,7 +26,7 @@ Our team has several rules of operation:
  - Briefly and clearly describe two things: which file/directory has changed, and what changes have occurred.
 
 ### Gitgraph diagram
-![GitGraph diagram](structure/Gitgraph_workflow_diagram.png)
+![GitGraph diagram](../../structure/Gitgraph_workflow_diagram.png)
 
 **Code reviews** ( Pay attention to: )
  - Code clarity
