@@ -36,15 +36,17 @@
     <li><a href="#project-context-diagram">Project Context Diagram</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#usage">Usage Guide</a></li>
-    <li><a href="#roadmap">Feature Roadmap</a></li>
-    <li><a href="#development">Development</a></li>
-    <li><a href="#quality-assurance">Quality Assurance</a></li>
-    <li><a href="#build-and-deployment">Build & Deployment</a></li>
+    <li><a href="#usage-guide">Usage Guide</a></li>
+    <li><a href="#feature-roadmap">Feature Roadmap</a></li>
+    <li><a href="https://hermitdesu.github.io/mars_bot_1.5/development/">Development (on github pages)</a></li>
+    <li><a href="https://hermitdesu.github.io/mars_bot_1.5/quality_assurance/">Quality Assurance (on github pages)</a></li>
+    <li><a href="https://hermitdesu.github.io/mars_bot_1.5/deployment/">Build & Deployment (on github pages)</a></li>
     <li><a href="#architecture">Architecture</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contacts">Contacts</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+</ol>
+
   </ol>
 </details>
 
@@ -89,14 +91,6 @@ The goal of this project is to build a multi-agent recommendation system that as
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Entry criteria
-
-| **TO DO**               | **In progress**       | **In review**               | **Ready to deploy**     | **User testing**       | **DONE**          |
-|-------------------------------------|----------------------------------|----------------------------------------|------------------------------------|-----------------------------------|-----------------------------|
-| - Discussion problem with team members<br><br>- Prioritize among issues<br><br>- A performer has been appointed<br><br>- A branch has been created in the repository | - Prioritize among issues<br><br>- Issues are estimated<br><br>- MR has been created | - Code fully implemented and self-reviewed<br><br>- Pass all tests<br><br>- Branch rebased on main<br><br>- min 2 reviewers assigned | - MR is approved<br><br>- The documentation is updated<br><br>- All tasks for this issue are closed | - Test Environment Ready<br><br>- Customer is informed | - Deployment is done<br><br>- Documentation is done<br><br>- Testing is complete |
-
-## Kanban board
-[**Link to the Kanban board**](https://drive.google.com/file/d/1lvN3w-KCPvQyGvFbfXvM-mOQlku4nOV4/view?usp=sharing) or this [**link**](https://drive.google.com/file/d/1SAXZeP9y6pCJRFgHrx-MF7KEN2ItJ8R5/view?usp=sharing), if you have account in Miro 
 ## 🛣️ Feature Roadmap
 
 - [x] Bot can understand the context
@@ -142,7 +136,7 @@ The **_Railway_** service is used to deploy our project. To repeat the project d
 6. Deploy project and make adjustments according to the logs
 ![fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
 
-<<<<<<< patch-2
+
 ### 📦 Manual deployment
 
 1. Clone the repo:
@@ -209,7 +203,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 
 
-## 📬 Contact
+## 📬 Contacts
 
 
 - Black-persik – [@black_persik](https://t.me/black_persik)  
@@ -283,106 +277,20 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 [Docker-url]: https://www.docker.com/
 
 
-
-=======
-## Continuous Integration
-
-Our project uses two separate CI pipelines: one for the database connector and one for the bot.
-
-#### Database connector CI
-
-- **CI Workflow:** [`.github/workflows/test.yml`](https://github.com/hermitdesu/SWP_DB/blob/main/.github/workflows/test.yml)
-
-- **Static Analysis and Testing Tools Used:**
-  - **pytest:** Runs automated tests to verify code correctness.
-  - **flake8:** Ensures code style consistency and catches simple errors.
-  - **bandit:** Scans the codebase for security vulnerabilities.
-
-- **Where to See CI Workflow Runs:**  
-  You can view all connector CI workflow runs for this project here:  
-  [GitHub Actions Runs](https://github.com/hermitdesu/SWP_DB/actions)
-
----
-
-#### Bot CI
-
-- **CI Workflow:** [`bot_aio/.github/workflows/test.yml`](https://github.com/Black-persik/bot_aio/blob/tests/.github/workflows/test.yml)
-
-- **Static Analysis and Testing Tools Used:**
-  - **flake8:** Ensures code style consistency and catches both critical and stylistic errors.
-  - **mypy:** Checks for type errors and enforces type safety.
-  - **pytest:** Runs automated tests to verify code correctness.
-
-- **Where to See CI Workflow Runs:**  
-  You can view all bot CI workflow runs for this project here:  
-  [GitHub Actions Runs](https://github.com/Black-persik/bot_aio/actions)
-
-
-## Quality assurance
-
-### Automated tests
-
-- **Tools used for testing:**  
-  - `pytest` — the main framework for unit and integration tests in all parts of the project  
-  - `pytest-asyncio` — for testing asynchronous code  
-  - `unittest` and `unittest.mock` — for integration tests and mocking the database in the backend  
-
-- **Tests that we implemented:**  
-  - **Unit tests:**  
-    - In the database connector repository:
-      - Mock tests for user CRUD operations
-      - Mock tests for conversation CRUD operations
-      - Mock tests for log CRUD operations
-      - Tests for user models
-      - Tests for conversation models
-      - Tests for log models
-    - In the bot repository:
-      - `test_start_new_user_unit`: Checks that the start function correctly handles a new user and prompts for a name.
-      - `test_start_existing_user_unit`: Checks that the start function correctly handles an already registered user and ends the conversation.
-      - `test_get_name_unit`: Verifies that the get_name function saves the user’s name and ends the conversation.
-      - `test_cancel_unit`: Ensures the cancel function sends a cancellation message and ends the conversation.
-      - `test_help_command_unit`: Checks that the help_command function sends the help message.
-  - **Integration tests:**  
-    - In the database connector repository:
-      - Tests for user API endpoints
-      - Tests for conversation API endpoints
-      - Tests for log API endpoints
-      - Tests for root and health endpoints
-    - In the bot repository:
-      - `test_full_registration_and_ask_integration`: Simulates a full registration flow and ensures the name is saved.
-      - `test_ask_and_ask_handler_integration`: Simulates asking a question and getting a response from the model.
-      - `test_cancel_clears_conv_id_integration`: Ensures that cancelling a conversation removes the conversation ID from the user’s context.
-      - `test_start_network_error_integration`: Checks that the start function gracefully handles network errors.
-      - `test_get_name_network_error_integration`: Checks that the get_name function gracefully handles network errors.
-
-- **Where tests of each type are in the repository:**  
-  - In the database connector repository:  
-    - All tests are located in the `tests/` directory:
-      - Unit tests:  
-        - `tests/test_cruds_mock.py`  
-        - `tests/test_models_user.py`  
-        - `tests/test_models_conv.py`  
-        - `tests/test_models_log.py`
-      - Integration tests:  
-        - `tests/test_api_integration.py`
-    - You can see the full test suite [here](https://github.com/hermitdesu/SWP_DB/tree/main/tests).
-
-  - In the bot repository:  
-    - All tests are located in the `tests/test_all.py` file.  
-    - You can see the full test suite [here](https://github.com/Black-persik/bot_aio/blob/tests/tests/test_all.py).
-  
-### Quality attribute scenarios
-[**Description of quality scenarios**](docs/quality-assurance/quality-attribute-scenarios.md)
-
 ## 📚 Documentation
+[Documenttation on Github Pages](https://hermitdesu.github.io/mars_bot_1.5/)
 
 - [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 - [Quality Attribute Scenarios](docs/quality-assurance/quality-attribute-scenarios.md)
 - [Quality assurance](https://github.com/swp-team-1/database_conector/tree/main/tests)
 - [CI Workflow](https://github.com/swp-team-1/database_conector/blob/main/.github/workflows/test.yml)
 - [CD Process](docs/automation/continuous-delivery.md)
-- ### 🏗 Architecture
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+  
+## 🏗 Architecture
 - [Static View](docs/architecture/static-view.md)
 - [Dynamic View](docs/architecture/dynamic-view.md)
 - [Deployment View](docs/architecture/deployment-view.md)
->>>>>>> main
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
