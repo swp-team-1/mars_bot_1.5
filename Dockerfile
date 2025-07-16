@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r db_connector/requirements.txt
 # Копируем весь проект
 COPY . .
 
-CMD ["uvicorn", "combined_main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
