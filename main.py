@@ -171,14 +171,15 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     user_text = update.message.text
     user_id = update.effective_user.id
     context.user_data['last_message'] = user_text
-    
+    global last_bot_response
     # Генерируем контекстный ответ с помощью ConversationManager
     response_to_bot = await conversation_manager.generate_contextual_response(user_id, user_text)
     print(response_to_bot)
-    
+    last_bot_response = response_to_bot  # Сохраняем ответ для возврата через /webhook
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
+        parse_mode='Markdown',
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
@@ -360,6 +361,9 @@ def register_handlers():
 
 
 register_handlers()
+class SmartQuestionRequest(BaseModel):
+    question: str
+    user_id: int
 class QuestionRequest(BaseModel):
     question: str
 @app.post("/send_response")
@@ -367,7 +371,14 @@ async def send_response(request: QuestionRequest)-> str:
     """This endpoint send the question from the user to the LLM model"""
     answer = await model.generate_perfect_response(request.question)
     return answer
+@app.post("/send_response_with_history")
+async def send_response_with_history(request: SmartQuestionRequest)-> str:
+    """This endpoint send the question from the user to the LLM model with history"""
+    answer = await conversation_manager.generate_contextual_response(request.user_id, request.question)
+    return answer
 # ===== Вебхук и запуск =====
+last_bot_response = None  # Глобальная переменная для хранения последнего ответа
+
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
@@ -398,5 +409,5 @@ if __name__ == "__main__":
     import multiprocessing
     multiprocessing.freeze_support()
     
-    port = int(os.getenv("PORT", 8080))  # Railway использует $PORT
+    port = int(os.getenv("PORT", 8000))  # Railway использует $PORT
     uvicorn.run(app, host="0.0.0.0", port=port, reload=False)
