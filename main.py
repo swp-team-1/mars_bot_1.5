@@ -16,6 +16,9 @@ from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
 
+# импорт фастапи из конектора к базе данных
+from db_connector.app.main import app as db_app
+
 load_dotenv()
 
 model = PerfectGPTClient()
@@ -33,6 +36,7 @@ if not TOKEN:
     raise ValueError("TELEGRAM_BOT_TOKEN не установлен")
 
 app = FastAPI()
+app.mount("/db", db_app)
 
 # Инициализация бота
 application = Application.builder().token(TOKEN).build()
