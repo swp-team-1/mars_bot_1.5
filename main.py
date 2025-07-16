@@ -55,7 +55,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "Привет! Я бот для рекомендательных систем.",
         reply_markup=main_keyboard,
     )
-    api_check_user = f"https://swpdb-production.up.railway.app/users/{update.effective_user.id}"
+    api_check_user = f"https://mars1-production.up.railway.app/users/{update.effective_user.id}"
     # if  requests.get(api_check_user).status_code == 200:
     #     await update.message.reply_text(
     #         "Вы уже зарегистрированы!",
@@ -93,7 +93,7 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         "_id" : update.effective_user.id,
         "name" : user_name,
     }
-    api_create_user = "https://swpdb-production.up.railway.app/users/"
+    api_create_user = "https://mars1-production.up.railway.app/users/"
     async with httpx.AsyncClient() as client:
         try:
             await client.post(api_create_user, json=payload_name_json)
@@ -157,7 +157,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data['last_message'] = None
     await update.message.reply_text("Напишите запрос! Чтобы завершить диалог, выберите другую команду или нажните /cancel", reply_markup=main_keyboard)
     async with httpx.AsyncClient() as client:
-        api_create_conv = "https://swpdb-production.up.railway.app/conversations/"
+        api_create_conv = "https://mars1-production.up.railway.app/conversations/"
         payload_conv_json = {
             "user_id": update.effective_user.id,
             "messages": []
@@ -187,7 +187,7 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
-    api_add_message = f"https://swpdb-production.up.railway.app/conversations/{context.user_data['conv_id']}/messages"
+    api_add_message = f"https://mars1-production.up.railway.app/conversations/{context.user_data['conv_id']}/messages"
     payload_add_message = {
         "sender" : "user",
         "text" : user_text,
