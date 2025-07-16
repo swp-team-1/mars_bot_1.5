@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.models.user import UserIn, UserOut, UserDB
-from app.db import users_collection
-from app.cruds.user_crud import create_user, read_user_by_id, update_user_by_id, delete_user_by_id
+from db_connector.app.models.user import UserIn, UserOut, UserDB
+from db_connector.app.db import users_collection
+from db_connector.app.cruds.user_crud import create_user, read_user_by_id, update_user_by_id, delete_user_by_id
 
 router = APIRouter(prefix="/users", tags=["Users"])
 

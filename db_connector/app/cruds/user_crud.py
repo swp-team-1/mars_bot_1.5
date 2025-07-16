@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
-from app.models.user import UserIn, UserDB
+from db_connector.app.models.user import UserIn, UserDB
 
 
 async def create_user(collection: AsyncIOMotorCollection, user: UserDB) -> int | None:

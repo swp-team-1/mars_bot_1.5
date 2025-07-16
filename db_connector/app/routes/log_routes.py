@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.models.log import LogIn, LogOut
-from app.db import logs_collection
-from app.cruds.log_crud import create_log, read_log, update_log, delete_log
+from db_connector.app.models.log import LogIn, LogOut
+from db_connector.app.db import logs_collection
+from db_connector.app.cruds.log_crud import create_log, read_log, update_log, delete_log
 
 router = APIRouter(prefix="/logs", tags=["Logs"])
 

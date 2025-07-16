@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
-from app.models.conv import ConversationIn, Message
+from db_connector.app.models.conv import ConversationIn, Message
 from bson import ObjectId, errors
 
 

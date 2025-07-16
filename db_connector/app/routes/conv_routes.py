@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.models.conv import ConversationIn, ConversationOut, Message
-import app.cruds.conv_crud as crud
-from app.db import conversations_collection
+from db_connector.app.models.conv import ConversationIn, ConversationOut, Message
+import db_connector.app.cruds.conv_crud as crud
+from db_connector.app.db import conversations_collection
 
 
 router = APIRouter(prefix="/conversations", tags=["Conversations"])

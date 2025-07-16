@@ -6,9 +6,10 @@ load_dotenv()
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from app.routes.conv_routes import router as conv_router
-from app.routes.user_routes import router as user_router
-from app.routes.log_routes import router as log_router
+
+from db_connector.app.routes.conv_routes import router as conv_router
+from db_connector.app.routes.user_routes import router as user_router
+from db_connector.app.routes.log_routes import router as log_router
 
 app = FastAPI(title="SWP Database API", version="1.0.0")
 

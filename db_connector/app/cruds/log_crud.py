@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 from bson import ObjectId
-from app.models.log import LogIn
+from db_connector.app.models.log import LogIn
 
 
 async def create_log(collection: AsyncIOMotorCollection, log: LogIn):
