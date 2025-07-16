@@ -433,19 +433,20 @@ class PerfectGPTClient:
         
         return base_message
     
-    async def generate_perfect_response(self, question: str) -> str:
-        """Генерирует максимально точный ответ"""
+    async def generate_perfect_response(self, context: str) -> str:
+        """Генерирует максимально точный ответ с учетом истории"""
         try:
-            # Находим точный элемент
-            found_element = self._find_exact_path(question)
+            # Для поиска элемента используем только последний вопрос из контекста
+            last_question = context.split('🎯 ТЕКУЩИЙ ВОПРОС:')[-1].split('\n')[0].strip() if '🎯 ТЕКУЩИЙ ВОПРОС:' in context else context
+            found_element = self._find_exact_path(last_question)
             
             # Создаем системное сообщение
-            system_message = self._create_perfect_system_message(question, found_element)
+            system_message = self._create_perfect_system_message(last_question, found_element)
             
             # Формируем payload для вашего API
             payload = {
                 "user_id": "multi_agent_recommender",
-                "user_message": question,
+                "user_message": context,  # Передаем весь контекст!
                 "system_message": system_message,
                 "llm_model": "gemini-2.0-flash",
                 "response_schema": {
@@ -467,7 +468,7 @@ class PerfectGPTClient:
                     answer = result["answer"]
                     
                     # Форматируем ответ с информацией о точности
-                    formatted_response = self._format_perfect_response(answer, found_element, question)
+                    formatted_response = self._format_perfect_response(answer, found_element, last_question)
                     return formatted_response
                 else:
                     return "❌ Ошибка: Неожиданный формат ответа от API"
@@ -506,7 +507,7 @@ def main():
     client = PerfectGPTClient()
     
     # Тестовые вопросы
-    test_questions = [
+    test_questions_list = [
         "Как включить темный режим?",
         "Где найти настройки языка?",
         "Как изменить время молитв?",
@@ -519,7 +520,7 @@ def main():
     print("=" * 60)
     
     async def test_questions():
-        for i, question in enumerate(test_questions, 1):
+        for i, question in enumerate(test_questions_list, 1):
             print(f"\n{i}. Вопрос: {question}")
             print("-" * 50)
             
