@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from datetime import timezone
 from telegram import Update, ReplyKeyboardMarkup
+from io import BytesIO
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -10,8 +11,9 @@ from telegram.ext import (
     ContextTypes, ConversationHandler,
 )
 import os
-import uvicorn  
 import httpx
+import uvicorn  
+import tempfile
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
@@ -146,11 +148,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         reply_markup=main_keyboard,
     )
 
-# async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     await update.message.reply_text(update.message.text, reply_markup=main_keyboard)
-
-
-
 WAITING_FOR_MESSAGE = 1
 async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True, one_time_keyboard=True)
@@ -216,7 +213,85 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 reply_markup=main_keyboard,
             )
     return WAITING_FOR_MESSAGE
-
+    
+async def voice_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Обработчик голосовых сообщений"""
+    try:
+        # Получаем голосовое сообщение
+        voice_file = await update.message.voice.get_file()
+        
+        # Скачиваем файл в память
+        voice_bytes = BytesIO()
+        await voice_file.download_to_memory(voice_bytes)
+        voice_bytes.seek(0)
+        
+        # Сохраняем во временный файл
+        with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as temp_audio:
+            temp_audio.write(voice_bytes.read())
+            temp_path = temp_audio.name
+        
+        # Конвертируем в WAV (если нужно)
+        audio = AudioSegment.from_file(temp_path)
+        wav_path = temp_path.replace(".ogg", ".wav")
+        audio.export(wav_path, format="wav")
+        
+        # Распознаем текст
+        result = model.transcribe(wav_path)
+        recognized_text = result["text"]
+        
+        # Удаляем временные файлы
+        os.unlink(temp_path)
+        os.unlink(wav_path)
+        
+        # Если текст распознан, обрабатываем как обычное сообщение
+        if recognized_text.strip():
+            # Сохраняем распознанный текст в контекст
+            context.user_data['last_message'] = recognized_text
+            
+            # Получаем ответ от бота
+            user_id = update.effective_user.id
+            response_to_bot = await conversation_manager.generate_contextual_response(user_id, recognized_text)
+            
+            await update.message.reply_text(
+                f"🎤 Распознано: {recognized_text}\n\n{response_to_bot}",
+                reply_markup=main_keyboard,
+                parse_mode='Markdown',
+            )
+            
+            # Сохраняем в историю (аналогично ask_handler)
+            if 'conv_id' in context.user_data:
+                api_add_message = f"https://mars1-production.up.railway.app/db/conversations/{context.user_data['conv_id']}/messages"
+                payload_add_message = {
+                    "sender": "user",
+                    "text": recognized_text,
+                    "time": update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+                }
+                payload_add_message_bot = {
+                    "sender": "bot",
+                    "text": response_to_bot,
+                    "time": update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+                }
+                
+                async with httpx.AsyncClient() as client:
+                    await client.post(api_add_message, json=payload_add_message)
+                    await client.post(api_add_message, json=payload_add_message_bot)
+            
+            return WAITING_FOR_MESSAGE
+        else:
+            await update.message.reply_text(
+                "Не удалось распознать речь. Попробуйте еще раз или напишите текст.",
+                reply_markup=main_keyboard,
+            )
+            return WAITING_FOR_MESSAGE
+            
+    except Exception as e:
+        print(f"Error in voice_handler: {e}")
+        await update.message.reply_text(
+            "Произошла ошибка при обработке голосового сообщения. Попробуйте еще раз или напишите текст.",
+            reply_markup=main_keyboard,
+        )
+        return WAITING_FOR_MESSAGE
+        
 # ===== Новые команды для управления историей =====
 async def history_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /history - показать историю диалогов"""
@@ -353,6 +428,10 @@ def register_handlers():
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND,
                     ask_handler
+                ),
+                MessageHandler(
+                    filters.VOICE,
+                    voice_handler
                 )
             ],
         },
