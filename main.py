@@ -347,10 +347,6 @@ def register_handlers():
                 MessageHandler(
                     filters.TEXT & ~filters.COMMAND,
                     ask_handler
-                ),
-                MessageHandler(
-                    filters.VOICE,
-                    voice_handler
                 )
             ],
         },
