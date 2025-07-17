@@ -57,12 +57,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         reply_markup=main_keyboard,
     )
     api_check_user = f"https://mars1-production.up.railway.app/db/users/{update.effective_user.id}"
-    # if  requests.get(api_check_user).status_code == 200:
-    #     await update.message.reply_text(
-    #         "Вы уже зарегистрированы!",
-    #         reply_markup=main_keyboard,
-    #     )
-    #     return ConversationHandler.END
     async with httpx.AsyncClient() as client:
         try:
             response_get_user = await client.get(api_check_user)
@@ -79,11 +73,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 reply_markup=main_keyboard,
             )
             return ConversationHandler.END
+        
     await update.message.reply_text(
         "Пожалуйста, введите ваше имя: ",
         reply_markup=main_keyboard,
     )
     return GET_NAME1
+    
 async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Получение и сохранение имени пользователя"""
     user_name = update.message.text
@@ -121,6 +117,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         del context.user_data['conv_id']
 
     return ConversationHandler.END
+    
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     command = update.message.text.split()[0]  # Получаем команду (/help, /start и т. д.)
 
@@ -167,6 +164,7 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 reply_markup=main_keyboard,
             )
         return WAITING_FOR_MESSAGE
+        
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_text = update.message.text
     user_id = update.effective_user.id
