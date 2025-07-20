@@ -225,7 +225,7 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
-        # parse_mode='MarkdownV2',
+        parse_mode='Markdown',
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
