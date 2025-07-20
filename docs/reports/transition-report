@@ -1,0 +1,42 @@
+# Product Status Q&A
+
+### Is the product complete? Which parts are done and which aren't done?
+The product is not ready yet in terms of testing in real conditions. However, it is fully functional and ready for trial use.
+
+### Is the customer using the product? How often? In what way? If not, why not?
+The customer is not using the product fully yet, as APIs are needed for integration.
+
+### Has the customer deployed the product on their side?
+No, deployment is not possible yet due to the lack of ready-made APIs. The implementation process will take time.
+
+### What measures need to be taken to fully transition the product?
+To fully put the product into operation, it is necessary:
+- Perform localization to ensure that the answers are correct
+- Set up clickable Markdown elements for easy interaction
+
+### What are the customer's plans for the product after its delivery? Are they going to continue working on it? Would they like to continue collaborating with the team and on what conditions?
+The customer plans to:
+- Test the product in your application
+- Use the evaluation set to evaluate the accuracy of the bot's responses
+- If the percentage of correct answers is satisfactory, consider full implementation
+
+The customer is open to further cooperation, as the solution is relevant to him.
+
+### How to increase the chance that it'll be useful after the final delivery?
+The customer sees potential in the solution, but cannot provide clear recommendations. To increase the usefulness of the product, it is necessary:
+- Teach the model to ask clarifying questions
+- Implement a human-in-the-loop mechanism to monitor responses
+- Finalize the infrastructure and dataset
+
+### Customer feedback on your README (go through it together at the meeting): Is everything clear? What can be improved?
+The README needs to be finalized:
+- Add a description of dataset generation for fine-tuning
+- Include the item "clarifying questions" in the Feature Roadmap section
+
+### Are they able to launch/deploy using your instructions?
+You need to add a deployment section on the Docker server.
+
+### What two other sections the customer would like to be included in the ReadMe?
+The requester requests to add:
+1. Instructions for using the API
+2. A section on fine-tuning and working with the dataset
