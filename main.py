@@ -17,7 +17,7 @@ import requests
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
-
+from iam_token_generator import IAM_TOKEN
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
 
@@ -30,7 +30,7 @@ conversation_manager = ConversationManager(MONGO_KEY)
 # Проверка переменных окружения
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Пример: https://your-project.up.railway.app
-IAM_TOKEN = os.getenv("IAM_TOKEN")
+# IAM_TOKEN = os.getenv("IAM_TOKEN")
 FOLDER_ID = os.getenv("FOLDER_ID")
 
 print(f"🔗 MongoDB: Подключение настроено")
