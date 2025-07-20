@@ -22,7 +22,7 @@ class IAMTokenManager:
     def get_iam_token(self):
         now = time.time()
         if not self.iam_token or now - self.token_created_at > self.token_ttl:
-            self.iam_token = self.sdk.service_account().get_iam_token().iam_token
+            self.iam_token = self.sdk.get_iam_token()
             self.token_created_at = now
             print("🔄 IAM токен обновлён")
         return self.iam_token
