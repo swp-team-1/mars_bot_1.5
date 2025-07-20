@@ -190,8 +190,10 @@ async def extract_text_from_voice(message):
         )
 
         if response.status_code == 200:
+            print("STT RESPONSE:", response.json())  # <-- Добавьте это
             return response.json().get("result")
-        else: return None
+        else:
+            print("STT ERROR:", response.status_code, response.text)  # <-- И это
 
     except Exception as e:
         print(f"Ошибка распознавания: {str(e)}")
