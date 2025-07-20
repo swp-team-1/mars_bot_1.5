@@ -407,7 +407,7 @@ def register_handlers():
         states={
             WAITING_FOR_MESSAGE: [
                 MessageHandler(
-                    (filters.TEXT | filters.voice) & ~filters.COMMAND,
+                    (filters.TEXT | filters.VOICE) & ~filters.COMMAND,
                     ask_handler
                 )
             ],
