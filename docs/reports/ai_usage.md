@@ -13,12 +13,7 @@
 ## Assignment 4:
 - Help with understanding of unit testing.
 - Help with understanding of CI pipeline.
-## Assignment 5:
-- 
--
 ## Assignment 6:
 - Help with structuring of readme.
--
 ## Assignment 7:
 - Additional questions for the interview with the customer.
--
