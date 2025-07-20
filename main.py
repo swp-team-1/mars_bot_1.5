@@ -38,6 +38,10 @@ print(f"🔑 Telegram Bot: {'✅ Готов' if TOKEN else '❌ Требуетс
 
 if not TOKEN:
     raise ValueError("TELEGRAM_BOT_TOKEN не установлен")
+if not IAM_TOKEN:
+    raise ValueError("IAM_TOKEN не установлен")
+if not FOLDER_ID:
+    raise ValueError("FOLDER_ID не установлен")
 
 app = FastAPI()
 app.mount("/db", db_app)
