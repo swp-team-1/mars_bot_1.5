@@ -17,7 +17,7 @@ import requests
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
-from iam_token_generator import IAM_TOKEN
+from iam_token_generator import iam_manager
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
 
@@ -38,8 +38,8 @@ print(f"🔑 Telegram Bot: {'✅ Готов' if TOKEN else '❌ Требуетс
 
 if not TOKEN:
     raise ValueError("TELEGRAM_BOT_TOKEN не установлен")
-if not IAM_TOKEN:
-    raise ValueError("IAM_TOKEN не установлен")
+if not os.getenv("SA_KEY"):
+    raise ValueError("Переменная окружения SA_KEY не установлена")
 if not FOLDER_ID:
     raise ValueError("FOLDER_ID не установлен")
 
@@ -178,10 +178,9 @@ async def extract_text_from_voice(message):
         voice_data = await voice_file.download_as_bytearray()
 
         headers = {
-            "Authorization": f"Bearer {IAM_TOKEN}",
-            "Content-Type": "audio/ogg"
+        "Authorization": f"Bearer {iam_manager.get_iam_token()}",
+        "Content-Type": "audio/ogg"
         }
-
         response = requests.post(
             "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
             headers=headers,
