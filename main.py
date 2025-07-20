@@ -5,17 +5,39 @@ from telegram import Update, ReplyKeyboardMarkup
 from io import BytesIO
 from telegram.ext import (
     Application,
+    ApplicationBuilder,
     CommandHandler,
     MessageHandler,
     filters,
     ContextTypes, ConversationHandler,
 )
 import os
+import sys
 import httpx
+import tempfile
 import uvicorn  
+import speech_recognition as sr
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
+
+from pydub import AudioSegment
+
+# Если ты скачиваешь ffmpeg в папку 'ffmpeg' рядом с этим скриптом
+FFMPEG_DIR = os.path.join(os.path.dirname(__file__), "ffmpeg")
+
+# В зависимости от ОС указываем имя бинарника
+if sys.platform == "win32":
+    ffmpeg_binary = os.path.join(FFMPEG_DIR, "ffmpeg.exe")
+else:
+    ffmpeg_binary = os.path.join(FFMPEG_DIR, "ffmpeg")
+
+# Добавляем папку с ffmpeg в PATH
+os.environ["PATH"] += os.pathsep + FFMPEG_DIR
+
+# Явно указываем pydub путь к ffmpeg
+os.environ["FFMPEG_BINARY"] = ffmpeg_binary
+AudioSegment.converter = ffmpeg_binary
 
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
@@ -385,7 +407,7 @@ def register_handlers():
         states={
             WAITING_FOR_MESSAGE: [
                 MessageHandler(
-                    (filters.TEXT | filter.voice) & ~filters.COMMAND,
+                    (filters.TEXT | filters.voice) & ~filters.COMMAND,
                     ask_handler
                 )
             ],
