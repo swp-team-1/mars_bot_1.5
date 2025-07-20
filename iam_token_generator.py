@@ -1,51 +1,51 @@
 import os
 import time
 import json
+import requests
 from yandexcloud import SDK
 
 class IAMTokenManager:
-    def __init__(self, token_ttl=3600):
-        self.token_ttl = token_ttl  # 1 час
+    def __init__(self, sa_key_env_var="SA_KEY", token_ttl=3600):
+        self.token_ttl = token_ttl  # Время жизни токена в секундах (~1 час)
         self.iam_token = None
         self.token_created_at = 0
-        
-        # Получаем ключ сервисного аккаунта из переменных окружения
-        sa_key_json = os.getenv("SA_KEY")
+
+        sa_key_json = os.getenv(sa_key_env_var)
         if not sa_key_json:
-            raise ValueError("Переменная SA_KEY не установлена")
-        
-        try:
-            # Парсим JSON из переменной окружения
-            sa_key = json.loads(sa_key_json)
-            self.sdk = SDK(service_account_key=sa_key)
-        except json.JSONDecodeError:
-            raise ValueError("Неверный формат JSON в SA_KEY")
-        except Exception as e:
-            raise ValueError(f"Ошибка инициализации SDK: {str(e)}")
+            raise ValueError(f"Переменная окружения {sa_key_env_var} не установлена")
+
+        key_data = json.loads(sa_key_json)
+        self.sdk = SDK(service_account_key=key_data)
 
     def get_iam_token(self):
         now = time.time()
         if not self.iam_token or now - self.token_created_at > self.token_ttl:
-            try:
-                # Получаем IAM токен через SDK
-                iam_token = self.sdk._client_credentials.iam_token
-                if not iam_token:
-                    raise ValueError("Не удалось получить IAM токен")
-                
-                self.iam_token = iam_token
-                self.token_created_at = now
-                print("🔄 IAM токен успешно обновлен")
-            except Exception as e:
-                print(f"❌ Ошибка при получении IAM токена: {str(e)}")
-                raise
+            credentials = self.sdk.get_credentials()
+            self.iam_token = credentials.iam_token
+            self.token_created_at = now
+            print("🔄 IAM токен обновлён")
         return self.iam_token
 
-# Инициализация
-try:
-    iam_manager = IAMTokenManager()
-    IAM_TOKEN = iam_manager.get_iam_token()
-    print(f"✅ IAM токен получен: {IAM_TOKEN[:10]}...")  # Логируем только начало токена
-except Exception as e:
-    print(f"❌ Критическая ошибка: {str(e)}")
-    IAM_TOKEN = None
-    # Здесь можно добавить дополнительные действия при ошибке
+# Инициализация менеджера токенов
+iam_manager = IAMTokenManager()
+
+# Используем функцию для получения актуального токена в вашем коде распознавания:
+def speechkit_stt(voice_data, folder_id, lang="ru-RU"):
+    iam_token = iam_manager.get_iam_token()
+    headers = {
+        "Authorization": f"Bearer {iam_token}",
+        "Content-Type": "audio/ogg"
+    }
+
+    response = requests.post(
+        "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
+        headers=headers,
+        params={"folderId": folder_id, "lang": lang},
+        data=voice_data
+    )
+
+    if response.status_code == 200:
+        return response.json().get("result")
+    else:
+        print(f"Ошибка STT: {response.status_code} {response.text}")
+        return None
