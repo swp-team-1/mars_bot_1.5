@@ -17,7 +17,7 @@ import requests
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
-from iam_token_generator import iam_manager
+from iam_token_generator import get_iam_token_from_sa_key
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
 
@@ -177,30 +177,30 @@ async def extract_text_from_voice(message):
         voice_file = await message.voice.get_file()
         voice_data = await voice_file.download_as_bytearray()
 
+        iam_token = get_iam_token_from_sa_key(KEY_PATH)
+        if not iam_token:
+            return None
+
         headers = {
-            "Authorization": f"Bearer {iam_manager.get_iam_token()}",
-            "Content-Type": "application/octet-stream"
+            "Authorization": f"Bearer {iam_token}",
+            "Content-Type": "audio/ogg"
         }
-        params = {
-            "folderId": FOLDER_ID,
-            "lang": "ru-RU",
-            "format": "oggopus"
-        }
+
         response = requests.post(
             "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
             headers=headers,
-            params=params,
+            params={"folderId": FOLDER_ID, "lang": "ru-RU"},
             data=voice_data
         )
 
         if response.status_code == 200:
-            print("STT RESPONSE:", response.json())  # <-- Добавьте это
             return response.json().get("result")
         else:
-            print("STT ERROR:", response.status_code, response.text)  # <-- И это
+            print(f"❌ Ошибка STT: {response.status_code} {response.text}")
+            return None
 
     except Exception as e:
-        print(f"Ошибка распознавания: {str(e)}")
+        print(f"❌ Ошибка распознавания: {str(e)}")
         return None
         
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
