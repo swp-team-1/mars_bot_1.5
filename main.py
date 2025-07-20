@@ -214,7 +214,7 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
-        parse_mode='Markdown',
+        # parse_mode='Markdown',
     )
     # Сохраняем сообщения в API (для совместимости с существующей системой)
     api_add_message = f"https://mars1-production.up.railway.app/db/conversations/{context.user_data['conv_id']}/messages"
