@@ -2,9 +2,6 @@ import os
 import time
 import json
 import requests
-import yandexcloud 
-from yandexcloud import SDK
-print("Yandex Cloud SDK version:", yandexcloud.__version__)
 
 class IAMTokenManager:
     def __init__(self, sa_key_env_var="SA_KEY", token_ttl=3600):
@@ -16,21 +13,42 @@ class IAMTokenManager:
         if not sa_key_json:
             raise ValueError(f"Переменная окружения {sa_key_env_var} не установлена")
 
-        key_data = json.loads(sa_key_json)
-        self.sdk = SDK(service_account_key=key_data)
+        self.key_data = json.loads(sa_key_json)
 
     def get_iam_token(self):
         now = time.time()
         if not self.iam_token or now - self.token_created_at > self.token_ttl:
-            self.iam_token = self.sdk.get_iam_token()
-            self.token_created_at = now
-            print("🔄 IAM токен обновлён")
+            # Формируем тело запроса
+            url = "https://iam.api.cloud.yandex.net/iam/v1/tokens"
+            headers = {"Content-Type": "application/json"}
+
+            # Для получения токена используем JWT из service account ключа
+            # Но проще - если у вас есть уже OAuth токен в ключе, можно использовать его:
+            if "oauth_token" in self.key_data:
+                data = {
+                    "yandexPassportOauthToken": self.key_data["oauth_token"]
+                }
+            else:
+                # Если OAuth токена нет - используем service account id и private_key
+                # Тогда нужно генерировать JWT (сложнее)
+                # Пока поднимем ошибку
+                raise RuntimeError("В service account ключе нет поля 'oauth_token', нужен OAuth токен для получения IAM токена вручную.")
+
+            response = requests.post(url, headers=headers, data=json.dumps(data))
+
+            if response.status_code == 200:
+                self.iam_token = response.json()["iamToken"]
+                self.token_created_at = now
+                print("🔄 IAM токен обновлён вручную")
+            else:
+                raise RuntimeError(f"Не удалось получить IAM токен: {response.status_code} {response.text}")
+
         return self.iam_token
 
 # Инициализация менеджера токенов
 iam_manager = IAMTokenManager()
 
-# Используем функцию для получения актуального токена в вашем коде распознавания:
+# Пример функции для распознавания речи через SpeechKit
 def speechkit_stt(voice_data, folder_id, lang="ru-RU"):
     iam_token = iam_manager.get_iam_token()
     headers = {
