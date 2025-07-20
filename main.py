@@ -17,7 +17,7 @@ import requests
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
-from iam_token_generator import get_iam_token_from_sa_key
+# from iam_token_generator import get_iam_token_from_sa_key
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
 
@@ -29,21 +29,21 @@ conversation_manager = ConversationManager(MONGO_KEY)
 
 # Проверка переменных окружения
 # Пути и переменные
-KEY_PATH = os.getenv("SA_KEY")
+# KEY_PATH = os.getenv("SA_KEY")
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Пример: https://your-project.up.railway.app
 # IAM_TOKEN = os.getenv("IAM_TOKEN")
-FOLDER_ID = os.getenv("FOLDER_ID")
+# FOLDER_ID = os.getenv("FOLDER_ID")
 
 print(f"🔗 MongoDB: Подключение настроено")
 print(f"🔑 Telegram Bot: {'✅ Готов' if TOKEN else '❌ Требуется TELEGRAM_BOT_TOKEN'}")
 
 if not TOKEN:
     raise ValueError("TELEGRAM_BOT_TOKEN не установлен")
-if not os.getenv("SA_KEY"):
-    raise ValueError("Переменная окружения SA_KEY не установлена")
-if not FOLDER_ID:
-    raise ValueError("FOLDER_ID не установлен")
+# if not os.getenv("SA_KEY"):
+#     raise ValueError("Переменная окружения SA_KEY не установлена")
+# if not FOLDER_ID:
+#     raise ValueError("FOLDER_ID не установлен")
 
 app = FastAPI()
 app.mount("/db", db_app)
@@ -173,54 +173,52 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             )
         return WAITING_FOR_MESSAGE
 
-async def extract_text_from_voice(message):
-    """Извлекает текст из голосового сообщения"""
-    try:
-        voice_file = await message.voice.get_file()
-        voice_data = await voice_file.download_as_bytearray()
-
-        iam_token = get_iam_token_from_sa_key(KEY_PATH)
-        if not iam_token:
-            return None
-
-        headers = {
-            "Authorization": f"Bearer {iam_token}",
-            "Content-Type": "audio/ogg"
-        }
-
-        response = requests.post(
-            "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
-            headers=headers,
-            params={"folderId": FOLDER_ID, "lang": "ru-RU"},
-            data=voice_data
-        )
-
-        if response.status_code == 200:
-            return response.json().get("result")
-        else:
-            print(f"❌ Ошибка STT: {response.status_code} {response.text}")
-            return None
-
-    except Exception as e:
-        print(f"❌ Ошибка распознавания: {str(e)}")
-        return None
-        
+async def convert_voice_to_text(voice_file: BytesIO) -> str:
+    """Конвертирует голосовое сообщение в текст через Whisper API"""
+    WHISPER_API_URL = "https://api.openai.com/v1/audio/transcriptions"  # Или ваш эндпоинт
+    headers = {
+        "Authorization": f"Bearer {os.getenv('OPENAI_API_KEY')}",
+    }
+    
+    voice_file.seek(0)  # Важно: перемотка файла в начало
+    files = {
+        "file": ("voice.ogg", voice_file, "audio/ogg"),
+        "model": (None, "whisper-1"),
+    }
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(WHISPER_API_URL, headers=headers, files=files)
+            response.raise_for_status()
+            return response.json()["text"]
+        except Exception as e:
+            print(f"Whisper API error: {e}")
+            return "Не удалось распознать голосовое сообщение"
+            
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    user_text = await extract_text_from_voice(update.message) if update.message.voice else update.message.text if update.message.text else None
-    if not user_text:
-        await update.message.reply_text("❌ Не удалось обработать сообщение")
-        return
+    if update.message.voice:
+        voice = update.message.voice
+        file = await voice.get_file()
+        voice_file = BytesIO()
+        await file.download_to_memory(voice_file)
+        user_text = await convert_voice_to_text(voice_file)  # Используем Whisper
+        voice_file.close()
+    else:
+        user_text = update.message.text  # Стандартная обработка текста
+    
+    # Далее вся ваша текущая логика остается без изменений
     user_id = update.effective_user.id
     context.user_data['last_message'] = user_text
     global last_bot_response
-    # Генерируем контекстный ответ с помощью ConversationManager
+    
     response_to_bot = await conversation_manager.generate_contextual_response(user_id, user_text)
     print(response_to_bot)
-    last_bot_response = response_to_bot  # Сохраняем ответ для возврата через /webhook
+    last_bot_response = response_to_bot
+    
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
-        # parse_mode='Markdown',
+        parse_mode='Markdown',
     )
     # Сохраняем сообщения в API (для совместимости с существующей системой)
     api_add_message = f"https://mars1-production.up.railway.app/db/conversations/{context.user_data['conv_id']}/messages"
@@ -388,7 +386,7 @@ def register_handlers():
         states={
             WAITING_FOR_MESSAGE: [
                 MessageHandler(
-                    filters.ALL & ~filters.COMMAND,
+                    (filters.TEXT | filters.VOICE) & ~filters.COMMAND,
                     ask_handler
                 )
             ],
