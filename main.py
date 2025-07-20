@@ -178,13 +178,18 @@ async def extract_text_from_voice(message):
         voice_data = await voice_file.download_as_bytearray()
 
         headers = {
-        "Authorization": f"Bearer {iam_manager.get_iam_token()}",
-        "Content-Type": "audio/ogg"
+            "Authorization": f"Bearer {iam_manager.get_iam_token()}",
+            "Content-Type": "application/octet-stream"
+        }
+        params = {
+            "folderId": FOLDER_ID,
+            "lang": "ru-RU",
+            "format": "oggopus"
         }
         response = requests.post(
             "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
             headers=headers,
-            params={"folderId": FOLDER_ID, "lang": "ru-RU"},
+            params=params,
             data=voice_data
         )
 
