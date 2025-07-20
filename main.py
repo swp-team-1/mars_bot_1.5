@@ -13,6 +13,7 @@ from telegram.ext import (
 import os
 import httpx
 import uvicorn  
+import requests
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
@@ -29,6 +30,8 @@ conversation_manager = ConversationManager(MONGO_KEY)
 # Проверка переменных окружения
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Пример: https://your-project.up.railway.app
+IAM_TOKEN = os.getenv("IAM_TOKEN")
+FOLDER_ID = os.getenv("FOLDER_ID")
 
 print(f"🔗 MongoDB: Подключение настроено")
 print(f"🔑 Telegram Bot: {'✅ Готов' if TOKEN else '❌ Требуется TELEGRAM_BOT_TOKEN'}")
@@ -102,9 +105,7 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             await update.message.reply_text(
                 "Ошибка при запросе на сервере. Обратитесь к администратору",
                 reply_markup=main_keyboard,
-
             )
-
     return ConversationHandler.END
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -145,6 +146,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
 
 WAITING_FOR_MESSAGE = 1
+
 async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     ask_keyboard = ReplyKeyboardMarkup([["Отмена"]], resize_keyboard=True, one_time_keyboard=True)
     context.user_data['last_message'] = None
@@ -164,9 +166,38 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 reply_markup=main_keyboard,
             )
         return WAITING_FOR_MESSAGE
+
+async def extract_text_from_voice(message):
+    """Извлекает текст из голосового сообщения"""
+    try:
+        voice_file = await message.voice.get_file()
+        voice_data = await voice_file.download_as_bytearray()
+
+        headers = {
+            "Authorization": f"Bearer {IAM_TOKEN}",
+            "Content-Type": "audio/ogg"
+        }
+
+        response = requests.post(
+            "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize",
+            headers=headers,
+            params={"folderId": FOLDER_ID, "lang": "ru-RU"},
+            data=voice_data
+        )
+
+        if response.status_code == 200:
+            return response.json().get("result")
+        return None
+
+    except Exception as e:
+        print(f"Ошибка распознавания: {str(e)}")
+        return None
         
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    user_text = update.message.text
+    user_text = await extract_text_from_voice(update.message) if update.message.voice else update.message.text if update.message.text else None
+    if not user_text:
+        await user_message.reply_text("❌ Не удалось обработать сообщение")
+        return
     user_id = update.effective_user.id
     context.user_data['last_message'] = user_text
     global last_bot_response
@@ -179,7 +210,6 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         reply_markup=main_keyboard,
         parse_mode='Markdown',
     )
-    
     # Сохраняем сообщения в API (для совместимости с существующей системой)
     api_add_message = f"https://mars1-production.up.railway.app/db/conversations/{context.user_data['conv_id']}/messages"
     payload_add_message = {
@@ -210,7 +240,8 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 reply_markup=main_keyboard,
             )
     return WAITING_FOR_MESSAGE
-    
+
+
 # ===== Новые команды для управления историей =====
 async def history_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /history - показать историю диалогов"""
