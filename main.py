@@ -222,17 +222,11 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     response_to_bot = await conversation_manager.generate_contextual_response(user_id, user_text)
     print(response_to_bot)
     last_bot_response = response_to_bot  # Сохраняем ответ для возврата через /webhook
-    # Функция для безопасного экранирования MarkdownV2, если нужно
-    def escape_markdown(text: str) -> str:
-        escape_chars = r"\_*[]()~`>#+-=|{}.!-"
-        return ''.join(f'\\{c}' if c in escape_chars else c for c in text)
-
-    # Решение 1: экранировать текст и всегда использовать MarkdownV2
-    safe_text = escape_markdown(response_to_bot)
+    
     await update.message.reply_text(
         safe_text,
         reply_markup=main_keyboard,
-        parse_mode='MarkdownV2',
+        #parse_mode='MarkdownV2',
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
