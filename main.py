@@ -28,6 +28,8 @@ MONGO_KEY = os.getenv("MONGO_KEY", "mongodb+srv://desgun4ik:bgB1t8KbEwToWc9d@clu
 conversation_manager = ConversationManager(MONGO_KEY)
 
 # Проверка переменных окружения
+# Пути и переменные
+KEY_PATH = os.getenv("SA_KEY")
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Пример: https://your-project.up.railway.app
 # IAM_TOKEN = os.getenv("IAM_TOKEN")
