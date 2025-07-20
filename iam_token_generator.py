@@ -3,6 +3,7 @@ import time
 import json
 import requests
 from yandexcloud import SDK
+print("Yandex Cloud SDK version:", yandexcloud.__version__)
 
 class IAMTokenManager:
     def __init__(self, sa_key_env_var="SA_KEY", token_ttl=3600):
