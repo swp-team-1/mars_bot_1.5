@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+Аfrom fastapi import FastAPI, Request
 from pydantic import BaseModel
 from datetime import timezone
 from telegram import Update, ReplyKeyboardMarkup
@@ -196,7 +196,7 @@ async def extract_text_from_voice(message):
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_text = await extract_text_from_voice(update.message) if update.message.voice else update.message.text if update.message.text else None
     if not user_text:
-        await user_message.reply_text("❌ Не удалось обработать сообщение")
+        await update.message.reply_text("❌ Не удалось обработать сообщение")
         return
     user_id = update.effective_user.id
     context.user_data['last_message'] = user_text
