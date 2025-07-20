@@ -6,10 +6,6 @@ import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# Пути и переменные
-KEY_PATH = "key.json"
-FOLDER_ID = "b1gjscnkju98tsil5anj"
-
 def get_iam_token_from_sa_key(json_key_path: str) -> str:
     """Генерация IAM токена из ключа сервисного аккаунта (SA Key)"""
     try:
