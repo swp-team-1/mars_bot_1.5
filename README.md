@@ -121,6 +121,34 @@ To use the recommender system you can contact us to get API endpoints.
 
 ## 🚀 Getting Started
 
+### 🐳 Docker Deployment
+
+To run the project locally using Docker:
+1. Clone the repository:
+```bash
+git clone https://github.com/swp-team-1/mars_bot_1.5.git
+cd mars_bot_1.5
+```
+2. Create an .env file:
+
+- Copy the example and fill in your configuration:
+```bash
+cp .env.example .env
+```
+- Edit .env and provide your values, for example:
+```bash
+TELEGRAM_BOT_TOKEN="your_telegram_bot_token"
+```
+3. Build the Docker image:
+```bash
+docker build --network=host -t mars-bot .
+```
+4. Run the Docker container:
+```bash
+docker run --env-file .env mars-bot
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Railway Deployment instructions
 The **_Railway_** service is used to deploy our project. To repeat the project deployment, you can follow these steps:
 1. Register or log in to your Railway account
@@ -136,37 +164,6 @@ The **_Railway_** service is used to deploy our project. To repeat the project d
 6. Deploy project and make adjustments according to the logs
 ![fifth_second_step](docs/deploy_instruction_pictures/congradilations.png)
 
-
-### 📦 Manual deployment
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/swp-team-1/mars_bot_1.5.git
-   cd mars_bot_1.5
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install the requirements:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create an `.env` file (copy from `.env.example`) and configure:
-   ```env
-   BOT_TOKEN=your_telegram_bot_token
-   MONGODB_URI=your_mongodb_connection_uri
-   ```
-
-5. Run services:
-   ```bash
-   uvicorn main:app --reload      # FastAPI backend
-   python bot_main.py             # Telegram bot
-   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
