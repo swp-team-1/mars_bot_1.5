@@ -20,7 +20,7 @@
   <p align="center">
     A Telegram Bot and API that helps users with namaz-related questions using a multi-agent recommender architecture.
     <br />
-    <a href="https://hermitdesu.github.io/mars_bot_1.5/"><strong>Explore the docs »</strong></a>
+    <a href="https://swp-team-1.github.io/mars_bot_1.5/"><strong>Explore the docs »</strong></a>
     <br />
     <a href="https://drive.google.com/file/d/1pu5FLFF-mL6AW8gWz7RMm9B7M8P0bstP/view">📺 Watch Demo Video</a>
     <br />
@@ -278,7 +278,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 
 ## 📚 Documentation
-[Documenttation on Github Pages](https://hermitdesu.github.io/mars_bot_1.5/)
+[Documenttation on Github Pages](https://swp-team-1.github.io/mars_bot_1.5/)
 
 - [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 - [Quality Attribute Scenarios](docs/quality-assurance/quality-attribute-scenarios.md)
