@@ -23,21 +23,7 @@ from conversation_manager import ConversationManager
 
 from pydub import AudioSegment
 
-# # Если ты скачиваешь ffmpeg в папку 'ffmpeg' рядом с этим скриптом
-# FFMPEG_DIR = os.path.join(os.path.dirname(__file__), "ffmpeg")
-
-# # В зависимости от ОС указываем имя бинарника
-# if sys.platform == "win32":
-#     ffmpeg_binary = os.path.join(FFMPEG_DIR, "ffmpeg.exe")
-# else:
-#     ffmpeg_binary = os.path.join(FFMPEG_DIR, "ffmpeg")
-
-# # Добавляем папку с ffmpeg в PATH
-# os.environ["PATH"] += os.pathsep + FFMPEG_DIR
-
-# # Явно указываем pydub путь к ffmpeg
-# os.environ["FFMPEG_BINARY"] = ffmpeg_binary
-# AudioSegment.converter = ffmpeg_binary
+AudioSegment.converter = "ffmpeg"
 
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
@@ -224,7 +210,7 @@ async def extract_text_from_update(update: Update, context: ContextTypes.DEFAULT
             for path in [ogg_file.name, wav_path]:
                 if os.path.exists(path):
                     os.remove(path)
-
+    
     return "Сообщение не распознано."
     
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
