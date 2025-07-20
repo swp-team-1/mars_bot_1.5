@@ -2,7 +2,7 @@ import os
 import time
 import json
 import requests
-from yandexcloud import SDK
+from yandexcloud 
 print("Yandex Cloud SDK version:", yandexcloud.__version__)
 
 class IAMTokenManager:
