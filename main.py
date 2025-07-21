@@ -378,7 +378,6 @@ async def send_response_with_history(request: SmartQuestionRequest)-> str:
 # ===== Вебхук и запуск =====
 last_bot_response = None  # Глобальная переменная для хранения последнего ответа
 
-даша, [21.07.2025 9:39]
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
