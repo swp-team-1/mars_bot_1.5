@@ -242,22 +242,22 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         "time": update.message.date.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     }
     
-    async with httpx.AsyncClient() as client:
-        try:
-            response_add_message_bot = await client.post(api_add_message, json=payload_add_message_bot)
-        except httpx.RequestError as e:
-            await update.message.reply_text(
-                "Обратитесь к администратору(", 
-                reply_markup=main_keyboard,
-            )
-    async with httpx.AsyncClient() as client:
-        try:
-            response_add_message = await client.post(api_add_message, json=payload_add_message)
-        except httpx.RequestError as e:
-            await update.message.reply_text(
-                "Обратитесь к администратору(((", 
-                reply_markup=main_keyboard,
-            )
+    # async with httpx.AsyncClient() as client:
+    #     try:
+    #         response_add_message_bot = await client.post(api_add_message, json=payload_add_message_bot)
+    #     except httpx.RequestError as e:
+    #         await update.message.reply_text(
+    #             "Обратитесь к администратору(", 
+    #             reply_markup=main_keyboard,
+    #         )
+    # async with httpx.AsyncClient() as client:
+    #     try:
+    #         response_add_message = await client.post(api_add_message, json=payload_add_message)
+    #     except httpx.RequestError as e:
+    #         await update.message.reply_text(
+    #             "Обратитесь к администратору(((", 
+    #             reply_markup=main_keyboard,
+    #         )
     return WAITING_FOR_MESSAGE
     
 # ===== Новые команды для управления историей =====
