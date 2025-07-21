@@ -102,7 +102,6 @@ async def get_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             await update.message.reply_text(
                 "Ошибка при запросе на сервере. Обратитесь к администратору",
                 reply_markup=main_keyboard,
-
             )
 
     return ConversationHandler.END
@@ -116,7 +115,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if 'conv_id' in context.user_data:
         del context.user_data['conv_id']
         
-return ConversationHandler.END
+    return ConversationHandler.END
     
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     command = update.message.text.split()[0]  # Получаем команду (/help, /start и т. д.)
