@@ -403,7 +403,7 @@ async def shutdown():
     await application.shutdown()
 
 # Запуск сервера (важно для Railway)
-if name == "main":
+if __name__ == "main":
     import multiprocessing
     multiprocessing.freeze_support()
     
