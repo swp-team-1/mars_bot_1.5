@@ -1,4 +1,3 @@
-даша, [21.07.2025 9:39]
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from datetime import timezone
