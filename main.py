@@ -1,3 +1,4 @@
+даша, [21.07.2025 9:39]
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from datetime import timezone
@@ -5,25 +6,17 @@ from telegram import Update, ReplyKeyboardMarkup
 from io import BytesIO
 from telegram.ext import (
     Application,
-    ApplicationBuilder,
     CommandHandler,
     MessageHandler,
     filters,
     ContextTypes, ConversationHandler,
 )
 import os
-import sys
 import httpx
-import tempfile
 import uvicorn  
-import speech_recognition as sr
 from dotenv import load_dotenv
 from perfect_gpt_client import *
 from conversation_manager import ConversationManager
-
-from pydub import AudioSegment
-
-AudioSegment.converter = "ffmpeg"
 
 # импорт фастапи из конектора к базе данных
 from db_connector.app.main import app as db_app
@@ -124,7 +117,8 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if 'conv_id' in context.user_data:
         del context.user_data['conv_id']
 
-    return ConversationHandler.END
+даша, [21.07.2025 9:39]
+return ConversationHandler.END
     
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     command = update.message.text.split()[0]  # Получаем команду (/help, /start и т. д.)
@@ -173,48 +167,9 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 reply_markup=main_keyboard,
             )
         return WAITING_FOR_MESSAGE
-
-async def extract_text_from_update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
-    if update.message.text:
-        return update.message.text
-
-    if update.message.voice:
-        try:
-            file = await context.bot.get_file(update.message.voice.file_id)
-
-            with tempfile.NamedTemporaryFile(suffix=".ogg", delete=False) as ogg_file:
-                await file.download_to_drive(ogg_file.name)
-                wav_path = ogg_file.name.replace(".ogg", ".wav")
-
-            AudioSegment.from_file(ogg_file.name).export(wav_path, format='wav')
-
-            recognizer = sr.Recognizer()
-            with sr.AudioFile(wav_path) as source:
-                audio_data = recognizer.record(source)
-
-            try:
-                text = recognizer.recognize_google(audio_data, language="ru-RU")
-            except sr.UnknownValueError:
-                try:
-                    text = recognizer.recognize_google(audio_data, language="en-US")
-                except sr.UnknownValueError:
-                    text = "Не удалось распознать речь."
-
-            return text
-
-        except Exception as e:
-            logger.error(f"Ошибка при обработке голосового: {e}")
-            return "Произошла ошибка при обработке голосового."
-
-        finally:
-            for path in [ogg_file.name, wav_path]:
-                if os.path.exists(path):
-                    os.remove(path)
-    
-    return "Сообщение не распознано."
-    
+        
 async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    user_text = await extract_text_from_update(update, context)
+    user_text = update.message.text
     user_id = update.effective_user.id
     context.user_data['last_message'] = user_text
     global last_bot_response
@@ -222,11 +177,10 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     response_to_bot = await conversation_manager.generate_contextual_response(user_id, user_text)
     print(response_to_bot)
     last_bot_response = response_to_bot  # Сохраняем ответ для возврата через /webhook
-    
     await update.message.reply_text(
         response_to_bot,
         reply_markup=main_keyboard,
-        # parse_mode='MarkdownV2',
+        parse_mode='Markdown',
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
@@ -259,7 +213,8 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 reply_markup=main_keyboard,
             )
     return WAITING_FOR_MESSAGE
-    
+
+даша, [21.07.2025 9:39]
 # ===== Новые команды для управления историей =====
 async def history_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /history - показать историю диалогов"""
@@ -312,7 +267,7 @@ async def clear_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         
         if success:
             await update.message.reply_text(
-                "🗑️ История диалогов очищена\n\n"
+                "🗑 История диалогов очищена\n\n"
                 "Все ваши предыдущие диалоги удалены. "
                 "Теперь я буду отвечать без учета предыдущего контекста.",
                 reply_markup=main_keyboard,
@@ -330,6 +285,7 @@ async def clear_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             reply_markup=main_keyboard,
         )
 
+даша, [21.07.2025 9:39]
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /stats - показать статистику использования"""
     user_id = update.effective_user.id
@@ -394,7 +350,7 @@ def register_handlers():
         states={
             WAITING_FOR_MESSAGE: [
                 MessageHandler(
-                    (filters.TEXT | filters.VOICE) & ~filters.COMMAND,
+                    filters.TEXT & ~filters.COMMAND,
                     ask_handler
                 )
             ],
@@ -426,6 +382,7 @@ async def send_response_with_history(request: SmartQuestionRequest)-> str:
 # ===== Вебхук и запуск =====
 last_bot_response = None  # Глобальная переменная для хранения последнего ответа
 
+даша, [21.07.2025 9:39]
 @app.post("/webhook")
 async def telegram_webhook(request: Request):
     try:
@@ -452,9 +409,9 @@ async def shutdown():
     await application.shutdown()
 
 # Запуск сервера (важно для Railway)
-if __name__ == "__main__":
+if name == "main":
     import multiprocessing
     multiprocessing.freeze_support()
     
-    port = int(os.getenv("PORT", 8080))  # Railway использует $PORT
+    port = int(os.getenv("PORT", 8000))  # Railway использует $PORT
     uvicorn.run(app, host="0.0.0.0", port=port, reload=False)
