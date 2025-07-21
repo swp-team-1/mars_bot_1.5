@@ -115,6 +115,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     if 'conv_id' in context.user_data:
         del context.user_data['conv_id']
+
     return ConversationHandler.END
     
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -210,7 +211,7 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
                 reply_markup=main_keyboard,
             )
     return WAITING_FOR_MESSAGE
-
+    
 # ===== Новые команды для управления историей =====
 async def history_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /history - показать историю диалогов"""
@@ -263,7 +264,7 @@ async def clear_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         
         if success:
             await update.message.reply_text(
-                "🗑 История диалогов очищена\n\n"
+                "🗑️ История диалогов очищена\n\n"
                 "Все ваши предыдущие диалоги удалены. "
                 "Теперь я буду отвечать без учета предыдущего контекста.",
                 reply_markup=main_keyboard,
@@ -403,7 +404,7 @@ async def shutdown():
     await application.shutdown()
 
 # Запуск сервера (важно для Railway)
-if __name__ == "main":
+if __name__ == "__main__":
     import multiprocessing
     multiprocessing.freeze_support()
     
