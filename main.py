@@ -178,7 +178,7 @@ async def extract_text_from_update(update: Update, context: ContextTypes.DEFAULT
     if update.message.text:
         return update.message.text
 
-    if update.message.voice:
+    elif update.message.voice:
         try:
             file = await context.bot.get_file(update.message.voice.file_id)
 
