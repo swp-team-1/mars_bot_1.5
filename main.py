@@ -115,8 +115,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     if 'conv_id' in context.user_data:
         del context.user_data['conv_id']
-
-даша, [21.07.2025 9:39]
+        
 return ConversationHandler.END
     
 async def cancel_for_asking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -213,7 +212,6 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
             )
     return WAITING_FOR_MESSAGE
 
-даша, [21.07.2025 9:39]
 # ===== Новые команды для управления историей =====
 async def history_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /history - показать историю диалогов"""
@@ -284,7 +282,6 @@ async def clear_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             reply_markup=main_keyboard,
         )
 
-даша, [21.07.2025 9:39]
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Обработчик команды /stats - показать статистику использования"""
     user_id = update.effective_user.id
