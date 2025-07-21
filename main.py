@@ -224,9 +224,9 @@ async def ask_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     last_bot_response = response_to_bot  # Сохраняем ответ для возврата через /webhook
     
     await update.message.reply_text(
-        safe_text,
+        response_to_bot,
         reply_markup=main_keyboard,
-        #parse_mode='MarkdownV2',
+        # parse_mode='MarkdownV2',
     )
     
     # Сохраняем сообщения в API (для совместимости с существующей системой)
