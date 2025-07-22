@@ -298,6 +298,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 > **Why this is important:**  
 > This section is necessary so that the customer can independently repeat the process of training the model, understand the data requirements and the steps necessary for successful fine-tuning. Following these instructions, you will be able to get a similar result without additional consultations.
 
-Detailed PDF instructions:
+📄 **Complete step-by-step instructions:**
+[Fine_Tune_guide-1.pdf](./docs/Fine_Tune_guide-1.pdf)
 
 
