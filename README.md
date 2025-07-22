@@ -293,7 +293,21 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## How to use API(for customer)
+## API Integration & Endpoints (for customer)
 
+> **Why this is important:**  
+> This section is needed so that the customer can quickly integrate the product into their application. The main API endpoints are listed here, through which you can interact with the model and database without having to understand the source code.
+
+### 📡 The main endpoints
+
+1. **The database**  
+   `https://mars1-production.up.railway.app/db/docs`  
+  
+
+2. **Interaction with the bot**  
+   `https://mars1-production.up.railway.app/docs`  
+
+---
 ## Fine-tuning AI Model (for customer)
 
 > **Why this is important:**  
