@@ -293,6 +293,11 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## How to use API(for customer)
+## Fine-tuning AI Model (for customer)
 
-##
+> **Why this is important:**  
+> This section is necessary so that the customer can independently repeat the process of training the model, understand the data requirements and the steps necessary for successful fine-tuning. Following these instructions, you will be able to get a similar result without additional consultations.
+
+Detailed PDF instructions:
+
 
